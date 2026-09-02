@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-// 验证扩展配置仅覆盖新标签页，不申请额外权限。
+// 验证扩展配置将首页设置为浏览器新标签页，且不申请额外权限。
 test('Manifest 覆盖新标签页且不申请权限', async () => {
   const manifest = JSON.parse(
     await readFile(new URL('../../manifest.json', import.meta.url)),
@@ -10,6 +10,7 @@ test('Manifest 覆盖新标签页且不申请权限', async () => {
 
   assert.equal(manifest.manifest_version, 3);
   assert.equal(manifest.name, 'My Tabs');
+  assert.equal(manifest.version, '1.0.0');
   assert.equal(manifest.description, '我的标签页，保存和组织我喜爱的网站。');
   assert.equal(manifest.chrome_url_overrides.newtab, 'src/views/home/index.html');
   assert.equal('permissions' in manifest, false);

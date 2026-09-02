@@ -3,8 +3,8 @@ import { createIcon } from '../icon/index.js';
 export function getMenuPosition(pointer, menuSize, viewport) {
   // 限制菜单坐标，避免卡片超出视口右侧或底部。
   return {
-    left: Math.min(pointer.x, viewport.width - menuSize.width),
-    top: Math.min(pointer.y, viewport.height - menuSize.height),
+    left: Math.max(0, Math.min(pointer.x, viewport.width - menuSize.width)),
+    top: Math.max(0, Math.min(pointer.y, viewport.height - menuSize.height)),
   };
 }
 

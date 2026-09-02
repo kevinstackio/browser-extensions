@@ -88,3 +88,23 @@ test('首页根元素空白处右键也会打开自定义菜单', () => {
   assert.equal(event.prevented, true);
   assert.equal(document.body.children.length, 1);
 });
+
+// 验证非空白元素保留浏览器原生右键菜单。
+test('首页非空白元素右键不会打开自定义菜单', () => {
+  const document = new FakeDocument();
+  const content = document.createElement('div');
+  document.body.append(content);
+  const event = {
+    target: content,
+    clientX: 120,
+    clientY: 240,
+    prevented: false,
+    preventDefault() { this.prevented = true; },
+  };
+
+  installContextMenu(document);
+  document.dispatch('contextmenu', event);
+
+  assert.equal(event.prevented, false);
+  assert.equal(document.body.children.length, 1);
+});

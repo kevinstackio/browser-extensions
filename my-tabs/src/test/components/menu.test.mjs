@@ -85,6 +85,18 @@ test('菜单定位不会越过视口右下边缘', () => {
   );
 });
 
+// 验证菜单尺寸超过视口时，坐标会停留在可见区域起点。
+test('菜单尺寸超过视口时不会产生负坐标', () => {
+  assert.deepEqual(
+    getMenuPosition(
+      { x: 10, y: 10 },
+      { width: 200, height: 120 },
+      { width: 100, height: 80 },
+    ),
+    { left: 0, top: 0 },
+  );
+});
+
 // 验证图标地址必须经由扩展资源公共方法生成。
 test('图标通过扩展根路径访问 Lucide 静态资源', () => {
   const document = createDocument();
