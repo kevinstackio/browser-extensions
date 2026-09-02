@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createContextMenu, getMenuPosition } from '../../components/menu/index.js';
 import { createIcon } from '../../components/icon/index.js';
 
+// 以最小 DOM 实现模拟菜单所需的元素行为。
 class FakeElement {
   constructor(tagName) {
     this.tagName = tagName;
@@ -36,6 +37,7 @@ class FakeElement {
   }
 }
 
+// 创建具备视口尺寸的测试文档。
 function createDocument() {
   const body = new FakeElement('body');
   const documentElement = new FakeElement('html');
@@ -48,6 +50,7 @@ function createDocument() {
   };
 }
 
+// 验证菜单信息架构：新建在首项，设置位于底部。
 test('菜单首项是新建且底部固定项是设置', () => {
   const document = createDocument();
   const menu = createContextMenu(document);
@@ -59,6 +62,7 @@ test('菜单首项是新建且底部固定项是设置', () => {
   assert.equal(card.children[1].children[0].children[1].textContent, '设置');
 });
 
+// 当前新建功能尚未实现，点击后仅关闭菜单。
 test('点击新建只关闭菜单，不创建页面内容', () => {
   const document = createDocument();
   const menu = createContextMenu(document);
@@ -69,6 +73,7 @@ test('点击新建只关闭菜单，不创建页面内容', () => {
   assert.equal(document.body.children.length, 0);
 });
 
+// 验证靠近右下边缘时菜单会回退到可见区域。
 test('菜单定位不会越过视口右下边缘', () => {
   assert.deepEqual(
     getMenuPosition(
@@ -80,6 +85,7 @@ test('菜单定位不会越过视口右下边缘', () => {
   );
 });
 
+// 验证图标地址必须经由扩展资源公共方法生成。
 test('图标通过扩展根路径访问 Lucide 静态资源', () => {
   const document = createDocument();
   const originalChrome = globalThis.chrome;

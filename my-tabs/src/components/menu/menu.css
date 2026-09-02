@@ -1,3 +1,4 @@
+/* 右键菜单卡片容器。 */
 .context-menu {
   position: fixed;
   z-index: 1;
@@ -9,6 +10,7 @@
   box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
 }
 
+/* 菜单项统一采用横向图标加文字布局。 */
 .context-menu__item {
   display: flex;
   width: 100%;
@@ -22,15 +24,18 @@
   text-align: left;
 }
 
+/* 鼠标悬停时提供轻量反馈。 */
 .context-menu__item:hover {
   background: #f3f4f6;
 }
 
+/* 保持所有菜单图标尺寸一致。 */
 .context-menu__icon {
   width: 18px;
   height: 18px;
 }
 
+/* 使用分隔线区分底部设置项。 */
 .context-menu__footer {
   border-top: 1px solid #e5e7eb;
 }
