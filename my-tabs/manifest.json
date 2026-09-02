@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "My Tabs",
+  "version": "1.0.0",
+  "description": "我的标签页，保存和组织我喜爱的网站。",
+  "chrome_url_overrides": {
+    "newtab": "src/views/home/index.html"
+  }
+}
