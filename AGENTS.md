@@ -1,9 +1,21 @@
 # 项目规范
 
-## 目录结构
+## 项目结构
 
 ```text
-my-tabs/
+product/
+├─ my-tabs/         # 独立浏览器插件：新标签页
+├─ tg-download/     # 独立浏览器插件：Telegram Web 媒体另存为
+├─ AGENTS.md        # 项目协作与开发规范
+├─ README.md        # 仓库说明与插件索引
+├─ LICENSE          # 开源许可证
+└─ .gitignore       # Git 忽略规则
+```
+
+## 子项目结构
+
+```text
+plugin/
 ├─ src/
 │  ├─ assets/       # 静态资源
 │  ├─ components/   # 通用组件
