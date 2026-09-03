@@ -1,24 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Telegram Web Save As",
+  "name": "TG Download",
   "version": "1.0.0",
-  "description": "Right-click an opened Telegram Web image or video to save it.",
-  "host_permissions": ["https://web.telegram.org/*"],
-  "web_accessible_resources": [{
-    "resources": ["icons/download.svg"],
-    "matches": ["https://web.telegram.org/*"]
-  }],
+  "description": "在 Telegram Web 中右键保存图片和视频。",
   "content_scripts": [
     {
       "matches": ["https://web.telegram.org/*"],
-      "js": ["src/page-bridge.js"],
-      "run_at": "document_start",
+      "css": ["src/styles/menu.css"],
+      "js": ["src/components/menu/index.js", "src/views/download/index.js"],
+      "run_at": "document_idle",
       "world": "MAIN"
-    },
-    {
-      "matches": ["https://web.telegram.org/*"],
-      "js": ["src/content.js"],
-      "run_at": "document_idle"
     }
   ]
 }
