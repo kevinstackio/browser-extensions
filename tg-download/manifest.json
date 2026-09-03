@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Telegram Web Save As",
+  "version": "1.0.0",
+  "description": "Right-click an opened Telegram Web image or video to save it.",
+  "host_permissions": ["https://web.telegram.org/*"],
+  "web_accessible_resources": [{
+    "resources": ["icons/download.svg"],
+    "matches": ["https://web.telegram.org/*"]
+  }],
+  "content_scripts": [
+    {
+      "matches": ["https://web.telegram.org/*"],
+      "js": ["src/page-bridge.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://web.telegram.org/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
