@@ -31,10 +31,9 @@ plugin/
 - 所有文本文件必须使用 UTF-8 编码。
 - 所有代码注释必须使用中文。
 
-## SVG 资源规范
+## 静态资源规范
 
-- SVG 资源只能从 Lucide Icons 获取。
-- `getExtensionAsset()` 统一封装 `chrome.runtime.getURL('src/assets/<path>')`。
+- 所有静态资源统一通过 `getExtensionAsset()` 封装 `chrome.runtime.getURL('src/assets/<path>')` 获取。
 
 ## 自动化测试规范
 
