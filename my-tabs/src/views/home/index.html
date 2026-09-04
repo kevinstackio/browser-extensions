@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tabs</title>
-    <!-- 首页仅加载全局初始化样式。 -->
+    <!-- 首页加载书签集合及其公共卡片样式。 -->
     <link rel="stylesheet" href="../../styles/reset.css">
+    <link rel="stylesheet" href="../../components/bookmark-item/bookmark-item.css">
+    <link rel="stylesheet" href="../bookmarks/bookmarks.css">
   </head>
-  <body></body>
+  <body>
+    <main class="bookmarks-page">
+      <section data-bookmarks aria-label="常用书签"></section>
+    </main>
+    <script type="module" src="index.js"></script>
+  </body>
 </html>

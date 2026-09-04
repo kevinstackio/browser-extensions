@@ -1,0 +1,23 @@
+.bookmarks-page {
+  display: grid;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 32px;
+  place-items: center;
+}
+
+.bookmarks {
+  display: grid;
+  grid-template-columns: repeat(3, 88px);
+  gap: 28px 24px;
+}
+
+@media (max-width: 420px) {
+  .bookmarks-page {
+    padding: 24px;
+  }
+
+  .bookmarks {
+    grid-template-columns: repeat(2, 88px);
+  }
+}

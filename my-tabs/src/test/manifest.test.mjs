@@ -16,13 +16,16 @@ test('Manifest 覆盖新标签页且不申请权限', async () => {
   assert.equal('permissions' in manifest, false);
 });
 
-// 验证首页只加载基础样式，不依赖已移除的交互功能。
-test('首页仅保留基础页面入口', async () => {
+// 验证首页加载书签入口所需资源与挂载节点。
+test('首页加载书签入口', async () => {
   const home = await readFile(new URL('../views/home/index.html', import.meta.url), 'utf8');
 
-  assert.doesNotMatch(home, /<main|<h1|Hello/);
   assert.match(home, /reset\.css/);
-  assert.doesNotMatch(home, /components\/menu|index\.js|<script/);
+  assert.match(home, /bookmark-item\.css/);
+  assert.match(home, /bookmarks\.css/);
+  assert.match(home, /<main/);
+  assert.match(home, /data-bookmarks/);
+  assert.match(home, /<script type="module" src="index\.js"><\/script>/);
 });
 
 // 验证根目录规范持续约束项目、资源与测试结构。
@@ -32,6 +35,8 @@ test('根目录约定包含项目、资源与测试规范', async () => {
   assert.match(instructions, /## 项目结构/);
   assert.match(instructions, /├─ my-tabs\//);
   assert.match(instructions, /## 静态资源规范/);
+  assert.match(instructions, /已有同类 Issue/);
+  assert.match(instructions, /Browser Extensions/);
   assert.match(instructions, /## 自动化测试规范/);
   assert.match(instructions, /UTF-8/);
   assert.match(instructions, /getExtensionAsset/);
