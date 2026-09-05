@@ -27,8 +27,8 @@ function createDocument() {
   };
 }
 
-// 验证集合视图会按配置顺序渲染全部书签。
-test('书签集合渲染全部品牌入口', () => {
+// 验证集合视图将文件夹置于左侧，并保留其中每个书签的链接行为。
+test('书签集合渲染社交媒体文件夹与右侧单书签', () => {
   const document = createDocument();
   const container = document.createElement('section');
 
@@ -36,6 +36,10 @@ test('书签集合渲染全部品牌入口', () => {
 
   assert.equal(container.className, 'bookmarks');
   assert.equal(container.children.length, BOOKMARKS.length);
-  assert.equal(container.children[0].attributes.get('href'), 'https://github.com');
-  assert.equal(container.children.at(-1).attributes.get('href'), 'https://x.com');
+  assert.equal(container.children[0].className, 'bookmark-folder');
+  assert.equal(container.children[0].children.length, 4);
+  assert.equal(container.children[0].children[0].attributes.get('href'), 'https://x.com');
+  assert.equal(container.children[0].children.at(-1).attributes.get('href'), 'https://linear.app');
+  assert.equal(container.children[1].attributes.get('href'), 'https://github.com');
+  assert.equal(container.children.at(-1).attributes.get('href'), 'https://vercel.com');
 });

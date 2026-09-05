@@ -1,0 +1,10 @@
+.bookmark-folder {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(2, 88px);
+  gap: 16px;
+  width: 218px;
+  padding: 12px;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+}

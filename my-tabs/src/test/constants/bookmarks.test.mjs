@@ -2,44 +2,74 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { BOOKMARKS } from '../../constants/bookmarks.js';
 
-// 验证品牌书签配置集中维护全部展示信息。
-test('品牌书签配置包含六个完整入口', () => {
+// 验证书签配置将四个社交媒体书签与右侧单书签分开维护。
+test('书签配置包含四个社交媒体书签与五个单书签', () => {
   assert.deepEqual(BOOKMARKS, [
     {
+      type: 'folder',
+      id: 'social-media',
+      name: '社交媒体',
+      items: [
+        {
+          id: 'x',
+          name: 'X',
+          url: 'https://x.com',
+          icon: 'brand/x.svg',
+        },
+        {
+          id: 'bilibili',
+          name: '哔哩哔哩',
+          url: 'https://www.bilibili.com',
+          icon: 'brand/bilibili.svg',
+        },
+        {
+          id: 'youtube',
+          name: 'YouTube',
+          url: 'https://www.youtube.com',
+          icon: 'brand/youtube.svg',
+        },
+        {
+          id: 'linear',
+          name: 'Linear',
+          url: 'https://linear.app',
+          icon: 'brand/linear.svg',
+        },
+      ],
+    },
+    {
+      type: 'bookmark',
       id: 'github',
       name: 'GitHub',
       url: 'https://github.com',
       icon: 'brand/github.svg',
     },
     {
+      type: 'bookmark',
       id: 'gmail',
       name: 'Gmail',
       url: 'https://mail.google.com',
       icon: 'brand/gmail.svg',
     },
     {
+      type: 'bookmark',
       id: 'namecheap',
       name: 'Namecheap',
       url: 'https://www.namecheap.com',
       icon: 'brand/namecheap.svg',
     },
     {
+      type: 'bookmark',
       id: 'notion',
       name: 'Notion',
       url: 'https://www.notion.so',
       icon: 'brand/notion.svg',
     },
     {
+      type: 'bookmark',
       id: 'vercel',
       name: 'Vercel',
       url: 'https://vercel.com',
       icon: 'brand/vercel.svg',
-    },
-    {
-      id: 'x',
-      name: 'X',
-      url: 'https://x.com',
-      icon: 'brand/x.svg',
     },
   ]);
 });

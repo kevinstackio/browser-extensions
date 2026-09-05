@@ -8,16 +8,25 @@
 
 .bookmarks {
   display: grid;
-  grid-template-columns: repeat(3, 88px);
-  gap: 28px 24px;
+  grid-template-columns: 218px 88px;
+  align-items: start;
+  gap: 24px;
 }
 
-@media (max-width: 420px) {
+.bookmarks > .bookmark-item {
+  grid-column: 2;
+}
+
+@media (max-width: 380px) {
   .bookmarks-page {
     padding: 24px;
   }
 
   .bookmarks {
-    grid-template-columns: repeat(2, 88px);
+    grid-template-columns: 218px;
+  }
+
+  .bookmarks > .bookmark-item {
+    grid-column: 1;
   }
 }
