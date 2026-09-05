@@ -42,7 +42,8 @@ test('品牌图标使用单色前层标签页', async () => {
   assert.match(icon, /viewBox="0 0 64 64"/);
   assert.match(icon, /color="#37352F"/);
   assert.match(icon, /fill="currentColor"/);
-  assert.match(icon, /d="M8 0/);
+  assert.doesNotMatch(icon, /fill="#78746C"/);
+  assert.match(icon, /d="M12 0/);
   assert.doesNotMatch(icon, /opacity|<line|<rect/);
 });
 
