@@ -13,6 +13,13 @@ test('Manifest 覆盖新标签页且不申请权限', async () => {
   assert.equal(manifest.version, '1.0.0');
   assert.equal(manifest.description, '我的标签页，保存和组织我喜爱的网站。');
   assert.equal(manifest.chrome_url_overrides.newtab, 'src/views/home/index.html');
+  assert.deepEqual(manifest.icons, {
+    16: 'src/assets/icons/my-tabs-16.png',
+    32: 'src/assets/icons/my-tabs-32.png',
+    48: 'src/assets/icons/my-tabs-48.png',
+    128: 'src/assets/icons/my-tabs-128.png',
+  });
+  assert.deepEqual(manifest.action.default_icon, manifest.icons);
   assert.equal('permissions' in manifest, false);
 });
 
@@ -26,6 +33,17 @@ test('首页加载书签入口', async () => {
   assert.match(home, /<main/);
   assert.match(home, /data-bookmarks/);
   assert.match(home, /<script type="module" src="index\.js"><\/script>/);
+});
+
+// 验证品牌图标是可缩放的单色前层标签页 SVG。
+test('品牌图标使用单色前层标签页', async () => {
+  const icon = await readFile(new URL('../assets/icons/my-tabs.svg', import.meta.url), 'utf8');
+
+  assert.match(icon, /viewBox="0 0 64 64"/);
+  assert.match(icon, /color="#37352F"/);
+  assert.match(icon, /fill="currentColor"/);
+  assert.match(icon, /d="M8 0/);
+  assert.doesNotMatch(icon, /opacity|<line|<rect/);
 });
 
 // 验证根目录规范持续约束项目、资源与测试结构。

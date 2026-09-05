@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" color="#37352F" aria-labelledby="title" role="img">
+  <title id="title">My Tabs</title>
+  <path fill="currentColor" fill-rule="evenodd" d="M8 0h48a8 8 0 0 1 8 8v48a8 8 0 0 1-8 8H8a8 8 0 0 1-8-8V8a8 8 0 0 1 8-8Zm10 22h28v6H18v-6Zm0 14h19v6H18v-6Z"/>
+</svg>
