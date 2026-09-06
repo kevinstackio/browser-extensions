@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-// 验证扩展配置将首页设置为浏览器新标签页，且不申请额外权限。
-test('Manifest 覆盖新标签页且不申请权限', async () => {
+// 验证扩展配置将首页设置为浏览器新标签页，并申请标签组权限。
+test('Manifest 覆盖新标签页并声明标签组权限', async () => {
   const manifest = JSON.parse(
     await readFile(new URL('../../manifest.json', import.meta.url)),
   );
@@ -20,7 +20,7 @@ test('Manifest 覆盖新标签页且不申请权限', async () => {
     128: 'src/assets/icons/my-tabs-128.png',
   });
   assert.deepEqual(manifest.action.default_icon, manifest.icons);
-  assert.equal('permissions' in manifest, false);
+  assert.deepEqual(manifest.permissions, ['tabGroups']);
 });
 
 // 验证首页加载书签入口所需资源与挂载节点。

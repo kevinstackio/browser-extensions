@@ -20,15 +20,22 @@ class FakeElement {
   setAttribute(name, value) {
     this.attributes.set(name, value);
   }
+
+  addEventListener() {}
 }
 
+/**
+ * 创建仅包含书签集合渲染所需能力的测试文档。
+ *
+ * @returns {{createElement: (tagName: string) => FakeElement}} 最小 DOM 文档替身。
+ */
 function createDocument() {
   return {
     createElement: (tagName) => new FakeElement(tagName),
   };
 }
 
-// 验证集合视图保留配置顺序，并渲染独立的 Linear 书签。
+// 验证集合视图保留配置顺序，并渲染标签组文件夹和独立书签。
 test('书签集合渲染社交媒体文件夹与独立书签', () => {
   const document = createDocument();
   const container = document.createElement('section');

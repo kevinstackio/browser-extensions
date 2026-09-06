@@ -1,3 +1,4 @@
+// 首页书签与文件夹的唯一配置来源，视图与组件仅消费该数据。
 export const BOOKMARKS = [
   {
     type: 'folder',

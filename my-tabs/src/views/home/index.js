@@ -1,8 +1,13 @@
 import { BOOKMARKS } from '../../constants/bookmarks.js';
 import { renderBookmarks } from '../bookmarks/index.js';
 
+/**
+ * 在首页存在书签挂载点时初始化全部快捷入口。
+ *
+ * @param {Document} document 要查询和更新的首页文档。
+ * @returns {void}
+ */
 export function installBookmarks(document) {
-  // 首页只在书签挂载节点存在时渲染快捷入口。
   const container = document.querySelector('[data-bookmarks]');
 
   if (container) {

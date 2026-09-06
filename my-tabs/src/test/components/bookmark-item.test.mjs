@@ -22,6 +22,11 @@ class FakeElement {
   }
 }
 
+/**
+ * 创建仅包含书签组件所需能力的测试文档。
+ *
+ * @returns {{createElement: (tagName: string) => FakeElement}} 最小 DOM 文档替身。
+ */
 function createDocument() {
   return {
     createElement: (tagName) => new FakeElement(tagName),

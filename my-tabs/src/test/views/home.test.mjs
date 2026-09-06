@@ -19,8 +19,15 @@ class FakeElement {
   setAttribute(name, value) {
     this.attributes.set(name, value);
   }
+
+  addEventListener() {}
 }
 
+/**
+ * 创建带有首页书签挂载点的测试文档。
+ *
+ * @returns {{createElement: Function, querySelector: Function, container: FakeElement}} 首页最小 DOM 文档替身。
+ */
 function createDocument() {
   const container = new FakeElement('section');
   return {

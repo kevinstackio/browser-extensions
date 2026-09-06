@@ -3,6 +3,9 @@
   "name": "My Tabs",
   "version": "1.0.0",
   "description": "我的标签页，保存和组织我喜爱的网站。",
+  "permissions": [
+    "tabGroups"
+  ],
   "icons": {
     "16": "src/assets/icons/my-tabs-16.png",
     "32": "src/assets/icons/my-tabs-32.png",

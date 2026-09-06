@@ -1,7 +1,13 @@
 import { getExtensionAsset } from '../../utils/common.js';
 
+/**
+ * 创建一个安全地在新标签页打开目标网站的书签卡片。
+ *
+ * @param {Document} document 用于创建 DOM 节点的页面文档。
+ * @param {{name: string, url: string, icon: string}} bookmark 书签显示与跳转配置。
+ * @returns {HTMLAnchorElement} 已组装的书签链接节点。
+ */
 export function createBookmarkItem(document, bookmark) {
-  // 创建在新标签页安全打开的书签入口。
   const item = document.createElement('a');
   const iconContainer = document.createElement('span');
   const icon = document.createElement('img');

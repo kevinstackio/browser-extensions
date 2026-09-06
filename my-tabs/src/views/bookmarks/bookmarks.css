@@ -1,3 +1,4 @@
+/* 提供从页面左上角开始布局书签的全页容器。 */
 .bookmarks-page {
   display: block;
   min-height: 100vh;
@@ -5,6 +6,7 @@
   padding: 32px;
 }
 
+/* 按从左到右、从上到下的顺序排列书签及文件夹。 */
 .bookmarks {
   display: grid;
   grid-template-columns: repeat(auto-fill, 88px);
@@ -15,10 +17,12 @@
 }
 
 @media (max-width: 380px) {
+  /* 在窄屏中收紧页面边距，保留左上起始布局。 */
   .bookmarks-page {
     padding: 24px;
   }
 
+  /* 缩小项目间距，避免窄屏横向空间浪费。 */
   .bookmarks {
     gap: 16px;
   }

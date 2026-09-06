@@ -1,3 +1,4 @@
+/* 让书签文件夹占据主网格的两列两行。 */
 .bookmark-folder {
   display: grid;
   box-sizing: border-box;
@@ -7,6 +8,7 @@
   gap: 8px;
 }
 
+/* 绘制固定正方形的四格书签图标预览面板。 */
 .bookmark-folder__preview {
   display: grid;
   box-sizing: border-box;
@@ -21,14 +23,17 @@
   background: #fff;
 }
 
+/* 将文件夹内书签缩小为仅用于预览的图标位。 */
 .bookmark-folder .bookmark-item {
   width: 72px;
 }
 
+/* 预览区不重复展示每个内部书签的名称。 */
 .bookmark-folder .bookmark-item__name {
   display: none;
 }
 
+/* 在预览面板下居中显示文件夹名称，并处理长文本。 */
 .bookmark-folder__name {
   justify-self: center;
   overflow: hidden;
