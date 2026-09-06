@@ -4,7 +4,12 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-// 提供菜单测试所需的最小 DOM 节点实现。
+/**
+ * 创建菜单测试所需的最小 DOM 节点实现。
+ *
+ * @param {string} tagName 节点标签名。
+ * @returns {object} 具备菜单代码所需方法和状态的节点替身。
+ */
 function node(tagName) {
   return { tagName, children: [], style: {}, append(...items) { this.children.push(...items); }, addEventListener(type, listener) { (this.listeners ||= {})[type] = listener; }, remove() { this.removed = true; } };
 }
