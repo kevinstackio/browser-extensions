@@ -2,75 +2,42 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { BOOKMARKS } from '../../constants/bookmarks.js';
 
-// 验证社交媒体文件夹仅保留社交媒体书签，Linear 作为独立入口。
-test('书签配置包含三个社交媒体书签与六个单书签', () => {
-  assert.deepEqual(BOOKMARKS, [
-    {
-      type: 'folder',
-      id: 'social-media',
-      name: 'Social Media',
-      items: [
-        {
-          id: 'x',
-          name: 'X',
-          url: 'https://x.com',
-          icon: 'brand/x.svg',
-        },
-        {
-          id: 'bilibili',
-          name: 'Bilibili',
-          url: 'https://www.bilibili.com',
-          icon: 'brand/bilibili.svg',
-        },
-        {
-          id: 'youtube',
-          name: 'YouTube',
-          url: 'https://www.youtube.com',
-          icon: 'brand/youtube.svg',
-        },
-      ],
-    },
-    {
-      type: 'bookmark',
-      id: 'linear',
-      name: 'Linear',
-      url: 'https://linear.app',
-      icon: 'brand/linear.svg',
-    },
-    {
-      type: 'bookmark',
-      id: 'github',
-      name: 'GitHub',
-      url: 'https://github.com',
-      icon: 'brand/github.svg',
-    },
-    {
-      type: 'bookmark',
-      id: 'gmail',
-      name: 'Gmail',
-      url: 'https://mail.google.com',
-      icon: 'brand/gmail.svg',
-    },
-    {
-      type: 'bookmark',
-      id: 'namecheap',
-      name: 'Namecheap',
-      url: 'https://www.namecheap.com',
-      icon: 'brand/namecheap.svg',
-    },
-    {
-      type: 'bookmark',
-      id: 'notion',
-      name: 'Notion',
-      url: 'https://www.notion.so',
-      icon: 'brand/notion.svg',
-    },
-    {
-      type: 'bookmark',
-      id: 'vercel',
-      name: 'Vercel',
-      url: 'https://vercel.com',
-      icon: 'brand/vercel.svg',
-    },
-  ]);
+// 验证主书签网格与固定 Dock 使用同一份书签配置。
+test('书签配置将社交媒体、DevOps、PM 与 Dock 分开维护', () => {
+  assert.deepEqual(BOOKMARKS, {
+    grid: [
+      {
+        type: 'folder',
+        id: 'social-media',
+        name: 'Social Media',
+        items: [
+          { id: 'x', name: 'X', url: 'https://x.com', icon: 'brand/x.svg' },
+          { id: 'bilibili', name: 'Bilibili', url: 'https://www.bilibili.com', icon: 'brand/bilibili.svg' },
+          { id: 'youtube', name: 'YouTube', url: 'https://www.youtube.com', icon: 'brand/youtube.svg' },
+        ],
+      },
+      {
+        type: 'folder',
+        id: 'devops',
+        name: 'DevOps',
+        items: [
+          { id: 'namecheap', name: 'Namecheap', url: 'https://www.namecheap.com', icon: 'brand/namecheap.svg' },
+          { id: 'vercel', name: 'Vercel', url: 'https://vercel.com', icon: 'brand/vercel.svg' },
+        ],
+      },
+      {
+        type: 'folder',
+        id: 'pm',
+        name: 'PM',
+        items: [
+          { id: 'linear', name: 'Linear', url: 'https://linear.app', icon: 'brand/linear.svg' },
+          { id: 'notion', name: 'Notion', url: 'https://www.notion.so', icon: 'brand/notion.svg' },
+        ],
+      },
+    ],
+    dock: [
+      { type: 'bookmark', id: 'github', name: 'GitHub', url: 'https://github.com', icon: 'brand/github.svg' },
+      { type: 'bookmark', id: 'gmail', name: 'Gmail', url: 'https://mail.google.com', icon: 'brand/gmail.svg' },
+    ],
+  });
 });

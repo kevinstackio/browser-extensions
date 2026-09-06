@@ -29,19 +29,25 @@ class FakeElement {
  * @returns {{createElement: Function, querySelector: Function, container: FakeElement}} 首页最小 DOM 文档替身。
  */
 function createDocument() {
-  const container = new FakeElement('section');
+  const bookmarks = new FakeElement('section');
+  const dock = new FakeElement('aside');
   return {
     createElement: (tagName) => new FakeElement(tagName),
-    querySelector: (selector) => (selector === '[data-bookmarks]' ? container : null),
-    container,
+    querySelector: (selector) => ({
+      '[data-bookmarks]': bookmarks,
+      '[data-bookmark-dock]': dock,
+    })[selector] || null,
+    bookmarks,
+    dock,
   };
 }
 
-// 验证首页将书签集合挂载到指定容器。
-test('首页挂载全部品牌书签', () => {
+// 验证首页分别挂载主书签网格与固定 Dock。
+test('首页挂载主书签网格与固定 Dock', () => {
   const document = createDocument();
 
   installBookmarks(document);
 
-  assert.equal(document.container.children.length, BOOKMARKS.length);
+  assert.equal(document.bookmarks.children.length, BOOKMARKS.grid.length);
+  assert.equal(document.dock.children[0].className, 'bookmark-dock');
 });

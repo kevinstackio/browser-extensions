@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tabs</title>
-    <!-- 首页加载书签集合及其公共卡片样式。 -->
+    <!-- 首页加载书签集合、底部 Dock 及其公共卡片样式。 -->
     <link rel="stylesheet" href="../../styles/reset.css">
     <link rel="stylesheet" href="../../components/bookmark-item/bookmark-item.css">
     <link rel="stylesheet" href="../../components/bookmark-folder/bookmark-folder.css">
+    <link rel="stylesheet" href="../../components/bookmark-dock/bookmark-dock.css">
     <link rel="stylesheet" href="../bookmarks/bookmarks.css">
   </head>
   <body>
     <main class="bookmarks-page">
       <section data-bookmarks aria-label="常用书签"></section>
     </main>
+    <aside data-bookmark-dock aria-label="固定书签"></aside>
     <script type="module" src="index.js"></script>
   </body>
 </html>

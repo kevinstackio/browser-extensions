@@ -29,9 +29,11 @@ test('首页加载书签入口', async () => {
 
   assert.match(home, /reset\.css/);
   assert.match(home, /bookmark-item\.css/);
+  assert.match(home, /bookmark-dock\.css/);
   assert.match(home, /bookmarks\.css/);
   assert.match(home, /<main/);
   assert.match(home, /data-bookmarks/);
+  assert.match(home, /data-bookmark-dock/);
   assert.match(home, /<script type="module" src="index\.js"><\/script>/);
 });
 
