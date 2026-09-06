@@ -2,7 +2,7 @@ export const BOOKMARKS = [
   {
     type: 'folder',
     id: 'social-media',
-    name: '社交媒体',
+    name: 'Social Media',
     items: [
       {
         id: 'x',
@@ -12,7 +12,7 @@ export const BOOKMARKS = [
       },
       {
         id: 'bilibili',
-        name: '哔哩哔哩',
+        name: 'Bilibili',
         url: 'https://www.bilibili.com',
         icon: 'brand/bilibili.svg',
       },
@@ -22,13 +22,14 @@ export const BOOKMARKS = [
         url: 'https://www.youtube.com',
         icon: 'brand/youtube.svg',
       },
-      {
-        id: 'linear',
-        name: 'Linear',
-        url: 'https://linear.app',
-        icon: 'brand/linear.svg',
-      },
     ],
+  },
+  {
+    type: 'bookmark',
+    id: 'linear',
+    name: 'Linear',
+    url: 'https://linear.app',
+    icon: 'brand/linear.svg',
   },
   {
     type: 'bookmark',

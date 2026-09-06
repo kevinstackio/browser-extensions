@@ -1,10 +1,41 @@
 .bookmark-folder {
   display: grid;
   box-sizing: border-box;
-  grid-template-columns: repeat(2, 88px);
-  gap: 16px;
-  width: 218px;
-  padding: 12px;
+  grid-column: span 2;
+  grid-row: span 2;
+  width: 200px;
+  gap: 8px;
+}
+
+.bookmark-folder__preview {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(2, 72px);
+  align-content: space-between;
+  justify-content: space-between;
+  width: 200px;
+  height: 200px;
+  padding: 20px;
   border: 1px solid #e4e4e7;
-  border-radius: 16px;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.bookmark-folder .bookmark-item {
+  width: 72px;
+}
+
+.bookmark-folder .bookmark-item__name {
+  display: none;
+}
+
+.bookmark-folder__name {
+  justify-self: center;
+  overflow: hidden;
+  max-width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

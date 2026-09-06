@@ -2,13 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { BOOKMARKS } from '../../constants/bookmarks.js';
 
-// 验证书签配置将四个社交媒体书签与右侧单书签分开维护。
-test('书签配置包含四个社交媒体书签与五个单书签', () => {
+// 验证社交媒体文件夹仅保留社交媒体书签，Linear 作为独立入口。
+test('书签配置包含三个社交媒体书签与六个单书签', () => {
   assert.deepEqual(BOOKMARKS, [
     {
       type: 'folder',
       id: 'social-media',
-      name: '社交媒体',
+      name: 'Social Media',
       items: [
         {
           id: 'x',
@@ -18,7 +18,7 @@ test('书签配置包含四个社交媒体书签与五个单书签', () => {
         },
         {
           id: 'bilibili',
-          name: '哔哩哔哩',
+          name: 'Bilibili',
           url: 'https://www.bilibili.com',
           icon: 'brand/bilibili.svg',
         },
@@ -28,13 +28,14 @@ test('书签配置包含四个社交媒体书签与五个单书签', () => {
           url: 'https://www.youtube.com',
           icon: 'brand/youtube.svg',
         },
-        {
-          id: 'linear',
-          name: 'Linear',
-          url: 'https://linear.app',
-          icon: 'brand/linear.svg',
-        },
       ],
+    },
+    {
+      type: 'bookmark',
+      id: 'linear',
+      name: 'Linear',
+      url: 'https://linear.app',
+      icon: 'brand/linear.svg',
     },
     {
       type: 'bookmark',
