@@ -37,6 +37,7 @@ plugin/
 
 ## Issue 规范
 
+- 默认不创建或更新 Issue；仅当用户明确要求时执行。
 - Issue 标题格式为 `【<子项目显示名称>】<简洁的动作与目标>`。
 - 子项目显示名称以 Linear 项目 `Browser Extensions` 中已有同类 Issue 的标题写法为准，保持大小写与空格一致。
 - 本仓库的 Issue 创建或更新时必须关联 Linear 项目 `Browser Extensions`；主 Issue 与全部子 Issue 均须关联该项目。
