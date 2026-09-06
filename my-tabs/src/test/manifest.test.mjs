@@ -28,9 +28,11 @@ test('首页加载书签入口', async () => {
   const home = await readFile(new URL('../views/home/index.html', import.meta.url), 'utf8');
 
   assert.match(home, /reset\.css/);
-  assert.match(home, /bookmark-item\.css/);
-  assert.match(home, /bookmark-dock\.css/);
-  assert.match(home, /bookmarks\.css/);
+  assert.match(home, /styles\/index\.css/);
+  assert.match(home, /bookmark-item\/index\.css/);
+  assert.match(home, /bookmark-folder\/index\.css/);
+  assert.match(home, /bookmark-dock\/index\.css/);
+  assert.match(home, /bookmarks\/index\.css/);
   assert.match(home, /<main/);
   assert.match(home, /data-bookmarks/);
   assert.match(home, /data-bookmark-dock/);

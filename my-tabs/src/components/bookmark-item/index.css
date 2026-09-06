@@ -2,9 +2,10 @@
 .bookmark-item {
   display: grid;
   justify-items: center;
-  gap: 8px;
-  width: 88px;
-  color: #27272a;
+  gap: var(--bookmark-label-gap);
+  width: var(--bookmark-grid-column);
+  height: var(--bookmark-grid-row);
+  color: var(--text-color);
   text-decoration: none;
   outline: none;
 }
@@ -12,27 +13,27 @@
 /* 提供品牌图标的圆角方形容器及悬停动画基础。 */
 .bookmark-item__icon {
   display: grid;
-  width: 64px;
-  height: 64px;
+  width: var(--bookmark-icon-size);
+  height: var(--bookmark-icon-size);
   place-items: center;
-  border: 1px solid #e4e4e7;
-  border-radius: 16px;
-  background: #fff;
-  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  border: var(--container-border);
+  border-radius: var(--container-radius);
+  background: var(--page-background);
+  transition: transform var(--transition-duration) ease, border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
 }
 
 /* 限制品牌图标尺寸，并让缩放动画仅作用于图标本身。 */
 .bookmark-item__icon img {
   width: 28px;
   height: 28px;
-  transition: transform 160ms ease;
+  transition: transform var(--transition-duration) ease;
 }
 
 /* 鼠标悬停或键盘聚焦时提升卡片的视觉层级。 */
 .bookmark-item:hover .bookmark-item__icon,
 .bookmark-item:focus-visible .bookmark-item__icon {
   transform: translateY(-2px);
-  border-color: #a1a1aa;
+  border-color: var(--border-color-hover);
   box-shadow: 0 8px 18px rgb(24 24 27 / 12%);
 }
 
@@ -44,7 +45,7 @@
 
 /* 为键盘用户显示高对比度的聚焦边框。 */
 .bookmark-item:focus-visible .bookmark-item__icon {
-  outline: 2px solid #18181b;
+  outline: 2px solid var(--focus-color);
   outline-offset: 3px;
 }
 
@@ -54,7 +55,7 @@
   overflow: hidden;
   font-size: 13px;
   font-weight: 600;
-  line-height: 20px;
+  line-height: var(--bookmark-label-height);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

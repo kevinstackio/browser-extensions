@@ -1,0 +1,34 @@
+/* 集中定义书签页的颜色、尺寸、间距与动效，供视图和组件复用。 */
+:root {
+  --page-background: #fff;
+  --page-padding: 24px;
+  --bookmark-grid-column: 88px;
+  --bookmark-grid-row: 104px;
+  --bookmark-grid-gap: 24px;
+  --bookmark-grid-gap-narrow: 16px;
+  --bookmark-icon-size: 64px;
+  --bookmark-label-gap: 8px;
+  --bookmark-label-height: 20px;
+  --bookmark-folder-size: 200px;
+  --bookmark-folder-grid-height: 232px;
+  --bookmark-folder-padding: 16px;
+  --bookmark-folder-preview-item-size: 72px;
+  --bookmark-folder-item-gap: 16px;
+  --bookmark-folder-label-gap: 12px;
+  --dock-bottom-offset: 24px;
+  --dock-padding: 8px;
+  --dock-gap: 8px;
+  --border-color: #e4e4e7;
+  --container-border: 1px solid var(--border-color);
+  --border-color-hover: #a1a1aa;
+  --text-color: #27272a;
+  --focus-color: #18181b;
+  --container-radius: 16px;
+  --transition-duration: 160ms;
+}
+
+/* 提供新标签页一致的纯白画布。 */
+html,
+body {
+  background: var(--page-background);
+}

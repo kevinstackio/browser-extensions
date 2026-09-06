@@ -44,13 +44,17 @@ test('底部 Dock 渲染固定书签', () => {
   assert.equal(dock.children[0].children[0].attributes.get('target'), '_blank');
 });
 
-// 验证 Dock 固定在底部，并始终保持单行展示。
-test('底部 Dock 使用固定单行布局', async () => {
+// 验证 Dock 固定在底部，复用文件夹外框并且不允许滚动。
+test('底部 Dock 使用固定无滚动的文件夹式布局', async () => {
   const styles = await readFile(
-    new URL('../../components/bookmark-dock/bookmark-dock.css', import.meta.url),
+    new URL('../../components/bookmark-dock/index.css', import.meta.url),
     'utf8',
   );
 
-  assert.match(styles, /\.bookmark-dock\s*\{[^}]*position:\s*fixed;[^}]*bottom:\s*24px;[^}]*left:\s*50%;[^}]*transform:\s*translateX\(-50%\);/s);
+  assert.match(styles, /\.bookmark-dock\s*\{[^}]*position:\s*fixed;[^}]*bottom:\s*var\(--dock-bottom-offset\);[^}]*left:\s*50%;[^}]*transform:\s*translateX\(-50%\);/s);
+  assert.match(styles, /\.bookmark-dock\s*\{[^}]*width:\s*max-content;[^}]*padding:\s*var\(--dock-padding\);[^}]*border:\s*var\(--container-border\);[^}]*border-radius:\s*var\(--container-radius\);[^}]*background:\s*var\(--page-background\);/s);
+  assert.doesNotMatch(styles, /\.bookmark-dock\s*\{[^}]*box-shadow:/s);
+  assert.doesNotMatch(styles, /overflow/);
   assert.match(styles, /\.bookmark-dock__items\s*\{[^}]*display:\s*flex;[^}]*flex-wrap:\s*nowrap;/s);
+  assert.match(styles, /\.bookmark-dock \.bookmark-item\s*\{[^}]*width:\s*var\(--bookmark-icon-size\);[^}]*height:\s*var\(--bookmark-icon-size\);[^}]*flex:\s*0 0 var\(--bookmark-icon-size\);/s);
 });

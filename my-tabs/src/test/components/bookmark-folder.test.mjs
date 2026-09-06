@@ -81,12 +81,12 @@ test('书签文件夹点击单个图标后加入标签组', async () => {
 // 验证文件夹占用四个网格位，并将内容收纳为紧凑图标预览。
 test('书签文件夹以紧凑图标预览占用四个网格位', async () => {
   const styles = await readFile(
-    new URL('../../components/bookmark-folder/bookmark-folder.css', import.meta.url),
+    new URL('../../components/bookmark-folder/index.css', import.meta.url),
     'utf8',
   );
 
-  assert.match(styles, /\.bookmark-folder\s*\{[^}]*grid-column:\s*span 2;[^}]*grid-row:\s*span 2;[^}]*width:\s*200px;/s);
-  assert.match(styles, /\.bookmark-folder__preview\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*72px\);[^}]*align-content:\s*space-between;[^}]*justify-content:\s*space-between;/s);
-  assert.match(styles, /\.bookmark-folder \.bookmark-item\s*\{[^}]*width:\s*72px;/s);
+  assert.match(styles, /\.bookmark-folder\s*\{[^}]*grid-column:\s*span 2;[^}]*grid-row:\s*span 2;[^}]*width:\s*var\(--bookmark-folder-size\);[^}]*height:\s*var\(--bookmark-folder-grid-height\);/s);
+  assert.match(styles, /\.bookmark-folder__preview\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*var\(--bookmark-folder-preview-item-size\)\);[^}]*gap:\s*var\(--bookmark-folder-item-gap\);/s);
+  assert.match(styles, /\.bookmark-folder \.bookmark-item\s*\{[^}]*width:\s*var\(--bookmark-folder-preview-item-size\);/s);
   assert.match(styles, /\.bookmark-folder \.bookmark-item__name\s*\{[^}]*display:\s*none;/s);
 });

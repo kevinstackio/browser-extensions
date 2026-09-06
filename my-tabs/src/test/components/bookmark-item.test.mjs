@@ -71,7 +71,7 @@ test('书签卡片展示品牌图标与名称', () => {
 // 验证书签名称使用较高字重以提高辨识度。
 test('书签名称使用加粗字重', async () => {
   const styles = await readFile(
-    new URL('../../components/bookmark-item/bookmark-item.css', import.meta.url),
+    new URL('../../components/bookmark-item/index.css', import.meta.url),
     'utf8',
   );
 

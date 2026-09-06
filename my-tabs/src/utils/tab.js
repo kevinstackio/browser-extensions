@@ -1,3 +1,26 @@
+// 定义 Chrome 标签组 API 支持的全部颜色，用于首次创建分组时随机分配。
+const TAB_GROUP_COLORS = [
+  'grey',
+  'blue',
+  'red',
+  'yellow',
+  'green',
+  'pink',
+  'purple',
+  'cyan',
+  'orange',
+];
+
+/**
+ * 从 Chrome 支持的标签组颜色中随机选择一个。
+ *
+ * @param {() => number} [random=Math.random] 返回大于等于零且小于一的随机数函数。
+ * @returns {string} 可用于 Chrome 标签组的颜色名称。
+ */
+export function getRandomTabGroupColor(random = Math.random) {
+  return TAB_GROUP_COLORS[Math.floor(random() * TAB_GROUP_COLORS.length)];
+}
+
 /**
  * 打开一个书签，并将新标签加入当前窗口同名的 Chrome 标签组。
  *
@@ -30,7 +53,7 @@ export async function openBookmarkInGroup(chrome, folder, bookmark) {
       // 仅在首次创建分组时设置标题和颜色，避免覆盖用户后续的自定义设置。
       await chrome.tabGroups.update(groupId, {
         title: folder.name,
-        color: 'cyan',
+        color: getRandomTabGroupColor(),
       });
     }
 

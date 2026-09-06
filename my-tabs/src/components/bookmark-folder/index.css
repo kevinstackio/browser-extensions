@@ -1,0 +1,48 @@
+/* 让书签文件夹占据主网格的两列两行，并与网格占位高度严格一致。 */
+.bookmark-folder {
+  display: grid;
+  box-sizing: border-box;
+  grid-column: span 2;
+  grid-row: span 2;
+  grid-template-rows: var(--bookmark-folder-size) var(--bookmark-label-height);
+  width: var(--bookmark-folder-size);
+  height: var(--bookmark-folder-grid-height);
+  gap: var(--bookmark-folder-label-gap);
+}
+
+/* 绘制固定正方形的四格书签图标预览面板，并保持统一图标间距。 */
+.bookmark-folder__preview {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(2, var(--bookmark-folder-preview-item-size));
+  gap: var(--bookmark-folder-item-gap);
+  width: var(--bookmark-folder-size);
+  height: var(--bookmark-folder-size);
+  padding: var(--bookmark-folder-padding);
+  border: var(--container-border);
+  border-radius: var(--container-radius);
+  background: var(--page-background);
+}
+
+/* 将文件夹内书签缩小为仅用于预览的图标位。 */
+.bookmark-folder .bookmark-item {
+  width: var(--bookmark-folder-preview-item-size);
+  height: var(--bookmark-folder-preview-item-size);
+}
+
+/* 预览区不重复展示每个内部书签的名称。 */
+.bookmark-folder .bookmark-item__name {
+  display: none;
+}
+
+/* 在预览面板下居中显示文件夹名称，并处理长文本。 */
+.bookmark-folder__name {
+  justify-self: center;
+  overflow: hidden;
+  max-width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: var(--bookmark-label-height);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

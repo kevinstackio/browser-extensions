@@ -67,10 +67,11 @@ test('书签集合渲染固定 Dock', () => {
 // 验证页面从左上角开始，以行优先的网格排布书签。
 test('书签集合从左上角按从左到右顺序排列', async () => {
   const styles = await readFile(
-    new URL('../../views/bookmarks/bookmarks.css', import.meta.url),
+    new URL('../../views/bookmarks/index.css', import.meta.url),
     'utf8',
   );
 
   assert.match(styles, /\.bookmarks-page\s*\{[^}]*display:\s*block;/s);
-  assert.match(styles, /\.bookmarks\s*\{[^}]*grid-template-columns:\s*repeat\(auto-fill,\s*88px\);[^}]*grid-auto-rows:\s*104px;[^}]*grid-auto-flow:\s*row;[^}]*justify-content:\s*start;/s);
+  assert.match(styles, /\.bookmarks-page\s*\{[^}]*padding:\s*var\(--page-padding\);/s);
+  assert.match(styles, /\.bookmarks\s*\{[^}]*grid-template-columns:\s*repeat\(auto-fill,\s*var\(--bookmark-grid-column\)\);[^}]*grid-auto-rows:\s*var\(--bookmark-grid-row\);[^}]*grid-auto-flow:\s*row;[^}]*justify-content:\s*start;/s);
 });
