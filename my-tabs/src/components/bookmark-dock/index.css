@@ -1,14 +1,14 @@
-/* 将常用书签固定为页面底部的横向文件夹，沿用文件夹的外框视觉。 */
+/* 将常用书签固定为页面底部的横向 Dock。 */
 .bookmark-dock {
   position: fixed;
   z-index: 1;
-  bottom: var(--dock-bottom-offset);
+  bottom: 24px;
   left: 50%;
   box-sizing: border-box;
   width: max-content;
-  padding: var(--dock-padding);
-  border: var(--container-border);
-  border-radius: var(--container-radius);
+  padding: 8px;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
   background: var(--page-background);
   transform: translateX(-50%);
 }
@@ -16,15 +16,17 @@
 /* 保持 Dock 内的固定书签横向单行排列。 */
 .bookmark-dock__items {
   display: flex;
+  box-sizing: border-box;
   flex-wrap: nowrap;
-  gap: var(--dock-gap);
+  gap: 8px;
 }
 
 /* 缩小 Dock 内书签占位，使其更接近 macOS Dock 的图标密度。 */
 .bookmark-dock .bookmark-item {
-  width: var(--bookmark-icon-size);
-  height: var(--bookmark-icon-size);
-  flex: 0 0 var(--bookmark-icon-size);
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
 }
 
 /* Dock 仅展示图标，链接的无障碍名称仍由书签组件保留。 */
@@ -34,6 +36,7 @@
 
 /* 让 Dock 图标容器更紧凑，并保留普通书签的悬停动画。 */
 .bookmark-dock .bookmark-item__icon {
-  width: var(--bookmark-icon-size);
-  height: var(--bookmark-icon-size);
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
 }

@@ -3,22 +3,14 @@
   display: block;
   min-height: 100vh;
   box-sizing: border-box;
-  padding: var(--page-padding);
+  padding: 24px;
 }
 
-/* 按从左到右、从上到下的顺序排列书签及文件夹。 */
+/* 以分类文件夹为单位从左上角自动换行排列。 */
 .bookmarks {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, var(--bookmark-grid-column));
-  grid-auto-rows: var(--bookmark-grid-row);
-  grid-auto-flow: row;
-  gap: var(--bookmark-grid-gap);
-  justify-content: start;
-}
-
-@media (max-width: 380px) {
-  /* 缩小项目间距，避免窄屏横向空间浪费。 */
-  .bookmarks {
-    gap: var(--bookmark-grid-gap-narrow);
-  }
+  display: flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 24px;
 }

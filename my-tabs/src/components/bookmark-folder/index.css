@@ -1,33 +1,36 @@
-/* 让书签文件夹占据主网格的两列两行，并与网格占位高度严格一致。 */
+/* 文件夹由预览区与名称自然确定实际尺寸。 */
 .bookmark-folder {
-  display: grid;
   box-sizing: border-box;
-  grid-column: span 2;
-  grid-row: span 2;
-  grid-template-rows: var(--bookmark-folder-size) var(--bookmark-label-height);
-  width: var(--bookmark-folder-size);
-  height: var(--bookmark-folder-grid-height);
-  gap: var(--bookmark-folder-label-gap);
+  display: grid;
+  justify-self: start;
+  align-self: start;
+  gap: 12px;
 }
 
-/* 绘制固定正方形的四格书签图标预览面板，并保持统一图标间距。 */
+/* 用固定内边距和图标间距包裹四个书签预览。 */
 .bookmark-folder__preview {
   display: grid;
   box-sizing: border-box;
-  grid-template-columns: repeat(2, var(--bookmark-folder-preview-item-size));
-  gap: var(--bookmark-folder-item-gap);
-  width: var(--bookmark-folder-size);
-  height: var(--bookmark-folder-size);
-  padding: var(--bookmark-folder-padding);
-  border: var(--container-border);
-  border-radius: var(--container-radius);
+  grid-template-columns: repeat(2, 64px);
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
   background: var(--page-background);
 }
 
 /* 将文件夹内书签缩小为仅用于预览的图标位。 */
 .bookmark-folder .bookmark-item {
-  width: var(--bookmark-folder-preview-item-size);
-  height: var(--bookmark-folder-preview-item-size);
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+}
+
+/* 为数量不足四个的书签保留空网格位。 */
+.bookmark-folder__placeholder {
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
 }
 
 /* 预览区不重复展示每个内部书签的名称。 */
@@ -37,12 +40,13 @@
 
 /* 在预览面板下居中显示文件夹名称，并处理长文本。 */
 .bookmark-folder__name {
+  box-sizing: border-box;
   justify-self: center;
   overflow: hidden;
   max-width: 100%;
   font-size: 13px;
   font-weight: 600;
-  line-height: var(--bookmark-label-height);
+  line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

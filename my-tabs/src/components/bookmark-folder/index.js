@@ -27,6 +27,15 @@ export function createBookmarkFolder(document, folder, onOpenBookmark) {
 
     return item;
   }));
+  preview.append(...Array.from({ length: Math.max(0, 4 - folder.items.length) }, () => {
+    const placeholder = document.createElement('span');
+
+    // 空占位只维持四格布局，不参与交互或辅助技术阅读。
+    placeholder.className = 'bookmark-folder__placeholder';
+    placeholder.setAttribute('aria-hidden', 'true');
+
+    return placeholder;
+  }));
   name.className = 'bookmark-folder__name';
   name.textContent = folder.name;
   element.append(preview, name);

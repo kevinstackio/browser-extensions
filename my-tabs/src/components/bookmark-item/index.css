@@ -1,10 +1,11 @@
 /* 定义图标与名称纵向排列的独立书签卡片。 */
 .bookmark-item {
   display: grid;
+  box-sizing: border-box;
   justify-items: center;
-  gap: var(--bookmark-label-gap);
-  width: var(--bookmark-grid-column);
-  height: var(--bookmark-grid-row);
+  gap: 8px;
+  width: 88px;
+  height: 104px;
   color: var(--text-color);
   text-decoration: none;
   outline: none;
@@ -13,19 +14,21 @@
 /* 提供品牌图标的圆角方形容器及悬停动画基础。 */
 .bookmark-item__icon {
   display: grid;
-  width: var(--bookmark-icon-size);
-  height: var(--bookmark-icon-size);
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
   place-items: center;
-  border: var(--container-border);
-  border-radius: var(--container-radius);
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
   background: var(--page-background);
   transition: transform var(--transition-duration) ease, border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
 }
 
 /* 限制品牌图标尺寸，并让缩放动画仅作用于图标本身。 */
 .bookmark-item__icon img {
-  width: 28px;
-  height: 28px;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
   transition: transform var(--transition-duration) ease;
 }
 
@@ -33,7 +36,7 @@
 .bookmark-item:hover .bookmark-item__icon,
 .bookmark-item:focus-visible .bookmark-item__icon {
   transform: translateY(-2px);
-  border-color: var(--border-color-hover);
+  border-color: #a1a1aa;
   box-shadow: 0 8px 18px rgb(24 24 27 / 12%);
 }
 
@@ -51,11 +54,12 @@
 
 /* 截断过长名称，保证书签卡片宽度稳定。 */
 .bookmark-item__name {
+  box-sizing: border-box;
   max-width: 100%;
   overflow: hidden;
   font-size: 13px;
   font-weight: 600;
-  line-height: var(--bookmark-label-height);
+  line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

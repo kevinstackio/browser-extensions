@@ -77,3 +77,14 @@ test('书签名称使用加粗字重', async () => {
 
   assert.match(styles, /\.bookmark-item__name\s*\{[^}]*font-weight:\s*600/s);
 });
+
+// 验证普通书签图标固定为 64 像素方形，SVG 保持居中的 32 像素尺寸。
+test('书签图标使用固定尺寸与独立圆角', async () => {
+  const styles = await readFile(
+    new URL('../../components/bookmark-item/index.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(styles, /\.bookmark-item__icon\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;[^}]*border-radius:\s*16px;/s);
+  assert.match(styles, /\.bookmark-item__icon img\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*32px;[^}]*height:\s*32px;/s);
+});

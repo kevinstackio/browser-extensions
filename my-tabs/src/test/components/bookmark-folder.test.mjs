@@ -63,8 +63,11 @@ test('书签文件夹点击单个图标后加入标签组', async () => {
   assert.equal(folder.listeners.size, 0);
   assert.equal(folder.children.length, 2);
   assert.equal(folder.children[0].className, 'bookmark-folder__preview');
+  assert.equal(folder.children[0].children.length, 4);
   assert.equal(folder.children[0].children[0].tagName, 'a');
   assert.equal(folder.children[0].children[0].attributes.get('href'), 'https://x.com');
+  assert.equal(folder.children[0].children[1].className, 'bookmark-folder__placeholder');
+  assert.equal(folder.children[0].children[1].attributes.get('aria-hidden'), 'true');
   assert.equal(folder.children[1].className, 'bookmark-folder__name');
   assert.equal(folder.children[1].textContent, 'Social Media');
   const event = { prevented: false, preventDefault() { this.prevented = true; } };
@@ -78,15 +81,18 @@ test('书签文件夹点击单个图标后加入标签组', async () => {
   }]);
 });
 
-// 验证文件夹占用四个网格位，并将内容收纳为紧凑图标预览。
-test('书签文件夹以紧凑图标预览占用四个网格位', async () => {
+// 验证文件夹由固定内边距和内部书签间距自然撑开。
+test('书签文件夹不设宽高并使用固定的内部间距', async () => {
   const styles = await readFile(
     new URL('../../components/bookmark-folder/index.css', import.meta.url),
     'utf8',
   );
 
-  assert.match(styles, /\.bookmark-folder\s*\{[^}]*grid-column:\s*span 2;[^}]*grid-row:\s*span 2;[^}]*width:\s*var\(--bookmark-folder-size\);[^}]*height:\s*var\(--bookmark-folder-grid-height\);/s);
-  assert.match(styles, /\.bookmark-folder__preview\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*var\(--bookmark-folder-preview-item-size\)\);[^}]*gap:\s*var\(--bookmark-folder-item-gap\);/s);
-  assert.match(styles, /\.bookmark-folder \.bookmark-item\s*\{[^}]*width:\s*var\(--bookmark-folder-preview-item-size\);/s);
+  assert.match(styles, /\.bookmark-folder\s*\{[^}]*box-sizing:\s*border-box;[^}]*display:\s*grid;[^}]*justify-self:\s*start;/s);
+  assert.doesNotMatch(styles, /\.bookmark-folder\s*\{[^}]*grid-(column|row):/s);
+  assert.doesNotMatch(styles, /\.bookmark-folder\s*\{[^}]*\b(width|height):/s);
+  assert.match(styles, /\.bookmark-folder__preview\s*\{[^}]*box-sizing:\s*border-box;[^}]*grid-template-columns:\s*repeat\(2,\s*64px\);[^}]*gap:\s*16px;[^}]*padding:\s*16px;[^}]*border-radius:\s*16px;/s);
+  assert.match(styles, /\.bookmark-folder \.bookmark-item\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
+  assert.match(styles, /\.bookmark-folder__placeholder\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
   assert.match(styles, /\.bookmark-folder \.bookmark-item__name\s*\{[^}]*display:\s*none;/s);
 });

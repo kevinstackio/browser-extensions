@@ -45,7 +45,7 @@ test('书签集合渲染三个分类文件夹', () => {
   assert.equal(container.className, 'bookmarks');
   assert.equal(container.children.length, BOOKMARKS.grid.length);
   assert.equal(container.children[0].className, 'bookmark-folder');
-  assert.equal(container.children[0].children[0].children.length, 3);
+  assert.equal(container.children[0].children[0].children.length, 4);
   assert.equal(container.children[0].children[0].children[0].attributes.get('href'), 'https://x.com');
   assert.equal(container.children[1].children[1].textContent, 'DevOps');
   assert.equal(container.children[1].children[0].children[0].attributes.get('href'), 'https://www.namecheap.com');
@@ -64,14 +64,15 @@ test('书签集合渲染固定 Dock', () => {
   assert.equal(container.children[0].children[0].children.length, 2);
 });
 
-// 验证页面从左上角开始，以行优先的网格排布书签。
-test('书签集合从左上角按从左到右顺序排列', async () => {
+// 验证页面以分类文件夹为单位从左上角自动换行排列。
+test('书签集合从左上角按文件夹自动换行排列', async () => {
   const styles = await readFile(
     new URL('../../views/bookmarks/index.css', import.meta.url),
     'utf8',
   );
 
   assert.match(styles, /\.bookmarks-page\s*\{[^}]*display:\s*block;/s);
-  assert.match(styles, /\.bookmarks-page\s*\{[^}]*padding:\s*var\(--page-padding\);/s);
-  assert.match(styles, /\.bookmarks\s*\{[^}]*grid-template-columns:\s*repeat\(auto-fill,\s*var\(--bookmark-grid-column\)\);[^}]*grid-auto-rows:\s*var\(--bookmark-grid-row\);[^}]*grid-auto-flow:\s*row;[^}]*justify-content:\s*start;/s);
+  assert.match(styles, /\.bookmarks-page\s*\{[^}]*padding:\s*24px;/s);
+  assert.match(styles, /\.bookmarks\s*\{[^}]*display:\s*flex;[^}]*box-sizing:\s*border-box;[^}]*flex-wrap:\s*wrap;[^}]*align-items:\s*flex-start;[^}]*gap:\s*24px;/s);
+  assert.doesNotMatch(styles, /grid-template-columns|grid-auto-rows|grid-auto-flow/);
 });
