@@ -81,7 +81,11 @@
     if (!src || !globalThis.showSaveFilePicker) return;
     let writable;
     try {
-      const handle = await globalThis.showSaveFilePicker({ suggestedName: filenameFor(media.tagName) });
+      const handle = await globalThis.showSaveFilePicker({
+        // 优先在用户桌面打开保存窗口，用户仍可手动选择其他位置。
+        startIn: 'desktop',
+        suggestedName: filenameFor(media.tagName),
+      });
       writable = await handle.createWritable(); menu.loading();
       let offset = 0; let total = 0;
       // 206 按 Content-Range 继续请求下一段；200 则一次写完。
