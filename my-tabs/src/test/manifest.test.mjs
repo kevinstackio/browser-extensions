@@ -53,6 +53,17 @@ test('品牌图标使用双层重叠标签页', async () => {
   assert.doesNotMatch(icon, /opacity|<line|<rect/);
 });
 
+// 验证未收录于 Simple Icons 的开发工具图标保持书签品牌 SVG 结构。
+test('开发工具书签图标遵循 Simple Icons 风格', async () => {
+  const icon = await readFile(new URL('../assets/brand/devtools.svg', import.meta.url), 'utf8');
+
+  assert.match(icon, /<svg role="img" viewBox="0 0 24 24"/);
+  assert.match(icon, /<title>DevTools<\/title>/);
+  assert.match(icon, /<path fill="#000000" transform="scale\(0\.0234375\)" d="M85\.333333 224/);
+  assert.equal((icon.match(/<path /g) ?? []).length, 1);
+  assert.doesNotMatch(icon, /<\?xml|<!DOCTYPE|class=|p-id=|width=|height=|stroke=|opacity|<line|<rect|<image/);
+});
+
 // 验证根目录规范持续约束项目、资源与测试结构。
 test('根目录约定包含项目、资源与测试规范', async () => {
   const instructions = await readFile(new URL('../../../AGENTS.md', import.meta.url), 'utf8');
