@@ -31,6 +31,12 @@ plugin/
 - 所有文本文件必须使用 UTF-8 编码。
 - 所有代码注释必须使用中文。
 
+## 浏览器兼容性
+
+- 所有插件仅面向基于 Chromium 的 Chrome 和 Edge；不要求兼容 Firefox、Safari 或其他浏览器。
+- 新增浏览器 API、Manifest 配置或扩展能力时，必须确认其在当前稳定版 Chrome 与 Edge 中可用；必要时提供功能检测与明确的降级行为。
+- 插件功能变更完成后，须至少在 Chrome 或 Edge 中完成一次实际加载与核心流程验证。
+
 ## 静态资源规范
 
 - 所有静态资源统一通过 `getExtensionAsset()` 封装 `chrome.runtime.getURL('src/assets/<path>')` 获取。
