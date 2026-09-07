@@ -39,15 +39,17 @@ test('首页加载书签入口', async () => {
   assert.match(home, /<script type="module" src="index\.js"><\/script>/);
 });
 
-// 验证品牌图标是可缩放的单色前层标签页 SVG。
-test('品牌图标使用单色前层标签页', async () => {
+// 验证品牌图标以两个重叠标签页表现标签页集合。
+test('品牌图标使用双层重叠标签页', async () => {
   const icon = await readFile(new URL('../assets/icons/my-tabs.svg', import.meta.url), 'utf8');
 
   assert.match(icon, /viewBox="0 0 64 64"/);
   assert.match(icon, /color="#37352F"/);
+  assert.match(icon, /<path fill="none" stroke="currentColor" stroke-width="6"/);
   assert.match(icon, /fill="currentColor"/);
-  assert.doesNotMatch(icon, /fill="#78746C"/);
-  assert.match(icon, /d="M12 0/);
+  assert.equal((icon.match(/<path /g) ?? []).length, 2);
+  assert.match(icon, /d="M14 10h30/);
+  assert.match(icon, /d="M22 20h30/);
   assert.doesNotMatch(icon, /opacity|<line|<rect/);
 });
 

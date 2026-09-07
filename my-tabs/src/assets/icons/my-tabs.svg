@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" color="#37352F" aria-labelledby="title" role="img">
   <title id="title">My Tabs</title>
-  <path fill="currentColor" fill-rule="evenodd" d="M12 0h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H12A12 12 0 0 1 0 52V12A12 12 0 0 1 12 0Zm6 22h28v6H18v-6Zm0 14h19v6H18v-6Z"/>
+  <path fill="none" stroke="currentColor" stroke-width="6" d="M14 10h30a10 10 0 0 1 10 10v30a10 10 0 0 1-10 10H14A10 10 0 0 1 4 50V20a10 10 0 0 1 10-10Z"/>
+  <path fill="currentColor" d="M22 20h30a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H22A10 10 0 0 1 12 50V30a10 10 0 0 1 10-10Z"/>
 </svg>
