@@ -1,6 +1,6 @@
 import { createBookmarkFolder } from '../../components/bookmark-folder/index.js';
 import { createBookmarkDock } from '../../components/bookmark-dock/index.js';
-import { createBookmarkItem } from '../../components/bookmark-item/index.js';
+import { createBookmarkCard } from '../../components/bookmark-card/index.js';
 import { openBookmarkInGroup } from '../../utils/tab.js';
 
 /**
@@ -21,7 +21,7 @@ export function renderBookmarks(document, container, bookmarks) {
         // 文件夹内每个书签独立打开，并以文件夹名称定位 Chrome 标签组。
         (folder, bookmark) => openBookmarkInGroup(chrome, folder, bookmark),
       )
-      : createBookmarkItem(document, item)
+      : createBookmarkCard(document, item)
   )));
 }
 

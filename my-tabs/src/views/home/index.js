@@ -1,4 +1,4 @@
-import { BOOKMARKS } from '../../constants/bookmarks.js';
+import { BOOKMARK_GRID, DOCK_FAVORITES } from '../../constants/bookmarks.js';
 import { renderBookmarkDock, renderBookmarks } from '../bookmarks/index.js';
 
 /**
@@ -12,11 +12,12 @@ export function installBookmarks(document) {
   const dock = document.querySelector('[data-bookmark-dock]');
 
   if (bookmarks) {
-    renderBookmarks(document, bookmarks, BOOKMARKS.grid);
+    // Grid 与 Dock 分别消费具名数据源，避免页面依赖书签配置内部结构。
+    renderBookmarks(document, bookmarks, BOOKMARK_GRID);
   }
 
   if (dock) {
-    renderBookmarkDock(document, dock, BOOKMARKS.dock);
+    renderBookmarkDock(document, dock, DOCK_FAVORITES);
   }
 }
 
