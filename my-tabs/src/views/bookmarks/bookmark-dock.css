@@ -1,0 +1,63 @@
+/* Dock 作为独立 View 固定在页面底部，并将收藏区与工具入口分开布局。 */
+.bookmark-dock {
+  position: fixed;
+  z-index: 1;
+  bottom: 24px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: max-content;
+  padding: 8px;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  background: var(--page-background);
+  transform: translateX(-50%);
+}
+
+/* 收藏书签保持单行排列，避免在 Dock 内换行。 */
+.bookmark-dock__favorites {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.bookmark-dock__tools {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+/* 分隔线仅占图标内容高度，不触及 Dock 外层内边距。 */
+.bookmark-dock__divider {
+  width: 1px;
+  height: 64px;
+  margin: 0 8px;
+  background: #e4e4e7;
+}
+
+/* Dock 内卡片仅展示图标，仍保留链接或按钮的无障碍名称。 */
+.bookmark-dock .bookmark-card {
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+}
+
+.bookmark-dock .bookmark-card__name {
+  display: none;
+}
+
+.bookmark-dock .bookmark-card__icon {
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+}
+
+/* DevTools 入口继承卡片外观，并移除按钮默认边框与内边距。 */
+.bookmark-dock__tool {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}

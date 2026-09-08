@@ -1,4 +1,4 @@
-import { BOOKMARK_GRID, DOCK_FAVORITES } from '../../constants/bookmarks.js';
+import { BOOKMARK_GRID, DOCK_DEVTOOLS, DOCK_FAVORITES } from '../../constants/bookmarks.js';
 import { renderBookmarkDock } from '../bookmarks/bookmark-dock.js';
 import { renderBookmarkGrid } from '../bookmarks/bookmark-grid.js';
 
@@ -18,7 +18,7 @@ export function installBookmarks(document) {
   }
 
   if (dock) {
-    renderBookmarkDock(document, dock, DOCK_FAVORITES);
+    renderBookmarkDock(document, dock, DOCK_FAVORITES, DOCK_DEVTOOLS);
   }
 }
 
