@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { BOOKMARK_GRID, DOCK_FAVORITES } from '../../constants/bookmarks.js';
 import { installBookmarks } from '../../views/home/index.js';
 
@@ -51,4 +52,14 @@ test('首页挂载主书签网格与固定 Dock', () => {
   assert.equal(document.bookmarks.children.length, BOOKMARK_GRID.length);
   assert.equal(document.dock.children[0].className, 'bookmark-dock');
   assert.equal(document.dock.children[0].children[0].children.length, DOCK_FAVORITES.length);
+});
+
+// 验证首页私有样式只负责页面容器的内边距和最小高度。
+test('首页使用独立页面容器样式', async () => {
+  const styles = await readFile(
+    new URL('../../views/home/index.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(styles, /\.bookmarks-page\s*\{[^}]*display:\s*block;[^}]*min-height:\s*100vh;[^}]*box-sizing:\s*border-box;[^}]*padding:\s*24px;/s);
 });

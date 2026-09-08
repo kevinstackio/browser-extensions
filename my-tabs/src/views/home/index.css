@@ -1,0 +1,7 @@
+/* 首页容器只定义页面级留白，Grid 布局由 bookmark-grid View 独立维护。 */
+.bookmarks-page {
+  display: block;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 24px;
+}

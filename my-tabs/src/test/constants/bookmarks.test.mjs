@@ -52,7 +52,7 @@ test('书签配置按使用场景提供具名数据源', () => {
         type: 'bookmark',
         id: 'google-translate',
         name: 'Google Translate',
-        url: 'https://translate.google.com/?hl=zh-cn',
+        url: 'https://translate.google.com/?hl=zh-cn&sl=en&tl=zh-CN&op=translate',
         icon: 'brand/googletranslate.svg',
       },
     ],
