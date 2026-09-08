@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { createBookmarkPopover } from '../../components/bookmark-popover/index.js';
 
 class FakeElement {
@@ -54,4 +55,14 @@ test('书签 Popover 鼠标离开后延迟关闭，进入浮层会保持打开',
   popover.element.listeners.get('mouseleave')();
   await new Promise((resolve) => setTimeout(resolve, 180));
   assert.equal(popover.element.attributes.get('hidden'), 'true');
+});
+
+test('书签 Popover 使用双层伪元素绘制朝向触发器的箭头', async () => {
+  const styles = await readFile(
+    new URL('../../components/bookmark-popover/index.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(styles, /\.bookmark-popover::before,\s*\.bookmark-popover::after\s*\{[^}]*transform:\s*translateX\(-50%\) rotate\(45deg\);/s);
+  assert.match(styles, /\.bookmark-popover::after\s*\{[^}]*background:\s*var\(--page-background\);/s);
 });

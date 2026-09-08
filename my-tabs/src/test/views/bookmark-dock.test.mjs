@@ -72,4 +72,5 @@ test('Dock View 使用左右分区和 64 像素分隔线', async () => {
 
   assert.match(styles, /\.bookmark-dock__divider\s*\{[^}]*width:\s*1px;[^}]*height:\s*64px;[^}]*background:\s*#e4e4e7;/s);
   assert.match(styles, /\.bookmark-dock__favorites\s*\{[^}]*display:\s*flex;[^}]*gap:\s*8px;/s);
+  assert.match(styles, /\.bookmark-dock__tools \.bookmark-popover\s*\{[^}]*left:\s*50%;[^}]*transform:\s*translateX\(-50%\);/s);
 });

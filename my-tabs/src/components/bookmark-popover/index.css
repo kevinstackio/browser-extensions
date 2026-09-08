@@ -1,5 +1,6 @@
 /* 浮层的位置由所属 View 决定；组件只提供通用的表面样式。 */
 .bookmark-popover {
+  position: relative;
   z-index: 2;
   min-width: 208px;
   padding: 8px;
@@ -7,6 +8,33 @@
   border-radius: 12px;
   background: var(--page-background);
   box-shadow: 0 12px 28px rgb(24 24 27 / 12%);
+}
+
+/* 双层菱形保留边框与填充，使箭头自然指向下方触发器。 */
+.bookmark-popover::before,
+.bookmark-popover::after {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  content: '';
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.bookmark-popover::before {
+  z-index: 0;
+  border-right: 1px solid #e4e4e7;
+  border-bottom: 1px solid #e4e4e7;
+  background: var(--page-background);
+}
+
+.bookmark-popover::after {
+  z-index: 1;
+  bottom: -1px;
+  width: 16px;
+  height: 8px;
+  background: var(--page-background);
 }
 
 .bookmark-popover[hidden] {
