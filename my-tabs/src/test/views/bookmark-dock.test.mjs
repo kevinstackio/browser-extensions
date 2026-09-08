@@ -11,6 +11,7 @@ class FakeElement {
     this.children = [];
     this.attributes = new Map();
     this.className = '';
+    this.listeners = new Map();
   }
 
   append(...children) {
@@ -21,7 +22,15 @@ class FakeElement {
     this.attributes.set(name, value);
   }
 
-  addEventListener() {}
+  removeAttribute(name) {
+    this.attributes.delete(name);
+  }
+
+  addEventListener(name, listener) {
+    this.listeners.set(name, listener);
+  }
+
+  focus() {}
 }
 
 /**
@@ -49,6 +58,9 @@ test('Dock View 渲染收藏区与 DevTools 聚合入口', () => {
   assert.equal(container.children[0].children[2].className, 'bookmark-dock__tools');
   assert.equal(container.children[0].children[2].children[0].tagName, 'button');
   assert.equal(container.children[0].children[2].children[0].attributes.get('aria-label'), '打开 DevTools 工具列表');
+  assert.equal(container.children[0].children[2].children[0].attributes.get('aria-expanded'), 'false');
+  assert.equal(container.children[0].children[2].children[1].className, 'bookmark-popover');
+  assert.equal(container.children[0].children[2].children[1].children[0].className, 'bookmark-list');
 });
 
 // 验证 Dock View 将布局样式与页面入口共同维护。

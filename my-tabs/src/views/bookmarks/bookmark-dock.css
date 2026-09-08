@@ -23,9 +23,17 @@
 }
 
 .bookmark-dock__tools {
+  position: relative;
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
+}
+
+/* DevTools 浮层锚定在工具入口上方，不遮挡底部 Dock。 */
+.bookmark-dock__tools .bookmark-popover {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
 }
 
 /* 分隔线仅占图标内容高度，不触及 Dock 外层内边距。 */
