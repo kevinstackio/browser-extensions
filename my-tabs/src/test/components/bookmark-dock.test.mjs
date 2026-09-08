@@ -40,6 +40,7 @@ test('底部 Dock 渲染固定书签', () => {
   assert.equal(dock.className, 'bookmark-dock');
   assert.equal(dock.attributes.get('aria-label'), '固定书签');
   assert.equal(dock.children[0].className, 'bookmark-dock__items');
+  assert.equal(dock.children[0].children[0].className, 'bookmark-card');
   assert.equal(dock.children[0].children[0].attributes.get('href'), 'https://github.com');
   assert.equal(dock.children[0].children[0].attributes.get('target'), '_blank');
 });
@@ -56,5 +57,5 @@ test('底部 Dock 使用固定无滚动布局', async () => {
   assert.doesNotMatch(styles, /\.bookmark-dock\s*\{[^}]*box-shadow:/s);
   assert.doesNotMatch(styles, /overflow/);
   assert.match(styles, /\.bookmark-dock__items\s*\{[^}]*display:\s*flex;[^}]*flex-wrap:\s*nowrap;[^}]*gap:\s*8px;/s);
-  assert.match(styles, /\.bookmark-dock \.bookmark-item\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;[^}]*flex:\s*0 0 64px;/s);
+  assert.match(styles, /\.bookmark-dock \.bookmark-card\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;[^}]*flex:\s*0 0 64px;/s);
 });

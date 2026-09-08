@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BOOKMARKS } from '../../constants/bookmarks.js';
+import { BOOKMARK_GRID, DOCK_FAVORITES } from '../../constants/bookmarks.js';
 import { installBookmarks } from '../../views/home/index.js';
 
 // 以最小 DOM 实现模拟首页书签挂载所需的元素行为。
@@ -48,6 +48,7 @@ test('首页挂载主书签网格与固定 Dock', () => {
 
   installBookmarks(document);
 
-  assert.equal(document.bookmarks.children.length, BOOKMARKS.grid.length);
+  assert.equal(document.bookmarks.children.length, BOOKMARK_GRID.length);
   assert.equal(document.dock.children[0].className, 'bookmark-dock');
+  assert.equal(document.dock.children[0].children[0].children.length, DOCK_FAVORITES.length);
 });

@@ -29,7 +29,7 @@ test('首页加载书签入口', async () => {
 
   assert.match(home, /reset\.css/);
   assert.match(home, /styles\/index\.css/);
-  assert.match(home, /bookmark-item\/index\.css/);
+  assert.match(home, /bookmark-card\/index\.css/);
   assert.match(home, /bookmark-folder\/index\.css/);
   assert.match(home, /bookmark-dock\/index\.css/);
   assert.match(home, /bookmarks\/index\.css/);

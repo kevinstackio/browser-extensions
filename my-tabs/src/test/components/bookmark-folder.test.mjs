@@ -65,6 +65,7 @@ test('书签文件夹点击单个图标后加入标签组', async () => {
   assert.equal(folder.children[0].className, 'bookmark-folder__preview');
   assert.equal(folder.children[0].children.length, 4);
   assert.equal(folder.children[0].children[0].tagName, 'a');
+  assert.equal(folder.children[0].children[0].className, 'bookmark-card');
   assert.equal(folder.children[0].children[0].attributes.get('href'), 'https://x.com');
   assert.equal(folder.children[0].children[1].className, 'bookmark-folder__placeholder');
   assert.equal(folder.children[0].children[1].attributes.get('aria-hidden'), 'true');
@@ -92,7 +93,7 @@ test('书签文件夹不设宽高并使用固定的内部间距', async () => {
   assert.doesNotMatch(styles, /\.bookmark-folder\s*\{[^}]*grid-(column|row):/s);
   assert.doesNotMatch(styles, /\.bookmark-folder\s*\{[^}]*\b(width|height):/s);
   assert.match(styles, /\.bookmark-folder__preview\s*\{[^}]*box-sizing:\s*border-box;[^}]*grid-template-columns:\s*repeat\(2,\s*64px\);[^}]*gap:\s*16px;[^}]*padding:\s*16px;[^}]*border-radius:\s*16px;/s);
-  assert.match(styles, /\.bookmark-folder \.bookmark-item\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
+  assert.match(styles, /\.bookmark-folder \.bookmark-card\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
   assert.match(styles, /\.bookmark-folder__placeholder\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
-  assert.match(styles, /\.bookmark-folder \.bookmark-item__name\s*\{[^}]*display:\s*none;/s);
+  assert.match(styles, /\.bookmark-folder \.bookmark-card__name\s*\{[^}]*display:\s*none;/s);
 });
