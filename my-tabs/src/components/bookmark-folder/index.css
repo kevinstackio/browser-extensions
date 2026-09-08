@@ -20,7 +20,7 @@
 }
 
 /* 将文件夹内书签缩小为仅用于预览的图标位。 */
-.bookmark-folder .bookmark-item {
+.bookmark-folder .bookmark-card {
   box-sizing: border-box;
   width: 64px;
   height: 64px;
@@ -34,7 +34,7 @@
 }
 
 /* 预览区不重复展示每个内部书签的名称。 */
-.bookmark-folder .bookmark-item__name {
+.bookmark-folder .bookmark-card__name {
   display: none;
 }
 

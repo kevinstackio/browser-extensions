@@ -1,5 +1,5 @@
-/* 定义图标与名称纵向排列的独立书签卡片。 */
-.bookmark-item {
+/* 定义图标与名称纵向排列的通用书签卡片。 */
+.bookmark-card {
   display: grid;
   box-sizing: border-box;
   justify-items: center;
@@ -12,7 +12,7 @@
 }
 
 /* 提供品牌图标的圆角方形容器及悬停动画基础。 */
-.bookmark-item__icon {
+.bookmark-card__icon {
   display: grid;
   box-sizing: border-box;
   width: 64px;
@@ -25,7 +25,7 @@
 }
 
 /* 限制品牌图标尺寸，并让缩放动画仅作用于图标本身。 */
-.bookmark-item__icon img {
+.bookmark-card__icon img {
   box-sizing: border-box;
   width: 32px;
   height: 32px;
@@ -33,27 +33,27 @@
 }
 
 /* 鼠标悬停或键盘聚焦时提升卡片的视觉层级。 */
-.bookmark-item:hover .bookmark-item__icon,
-.bookmark-item:focus-visible .bookmark-item__icon {
+.bookmark-card:hover .bookmark-card__icon,
+.bookmark-card:focus-visible .bookmark-card__icon {
   transform: translateY(-2px);
   border-color: #a1a1aa;
   box-shadow: 0 8px 18px rgb(24 24 27 / 12%);
 }
 
 /* 与容器动效同步轻微放大品牌图标。 */
-.bookmark-item:hover .bookmark-item__icon img,
-.bookmark-item:focus-visible .bookmark-item__icon img {
+.bookmark-card:hover .bookmark-card__icon img,
+.bookmark-card:focus-visible .bookmark-card__icon img {
   transform: scale(1.06);
 }
 
 /* 为键盘用户显示高对比度的聚焦边框。 */
-.bookmark-item:focus-visible .bookmark-item__icon {
+.bookmark-card:focus-visible .bookmark-card__icon {
   outline: 2px solid var(--focus-color);
   outline-offset: 3px;
 }
 
 /* 截断过长名称，保证书签卡片宽度稳定。 */
-.bookmark-item__name {
+.bookmark-card__name {
   box-sizing: border-box;
   max-width: 100%;
   overflow: hidden;

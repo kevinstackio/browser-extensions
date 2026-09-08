@@ -1,4 +1,4 @@
-import { createBookmarkItem } from '../bookmark-item/index.js';
+import { createBookmarkCard } from '../bookmark-card/index.js';
 
 /**
  * 创建以紧凑图标预览呈现的书签文件夹。
@@ -17,7 +17,7 @@ export function createBookmarkFolder(document, folder, onOpenBookmark) {
   element.setAttribute('aria-label', folder.name);
   preview.className = 'bookmark-folder__preview';
   preview.append(...folder.items.map((bookmark) => {
-    const item = createBookmarkItem(document, bookmark);
+    const item = createBookmarkCard(document, bookmark);
 
     item.addEventListener('click', (event) => {
       // 保留链接语义，但由扩展创建标签以便将其加入对应分组。

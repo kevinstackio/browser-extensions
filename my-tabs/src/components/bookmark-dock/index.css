@@ -22,7 +22,7 @@
 }
 
 /* 缩小 Dock 内书签占位，使其更接近 macOS Dock 的图标密度。 */
-.bookmark-dock .bookmark-item {
+.bookmark-dock .bookmark-card {
   box-sizing: border-box;
   width: 64px;
   height: 64px;
@@ -30,12 +30,12 @@
 }
 
 /* Dock 仅展示图标，链接的无障碍名称仍由书签组件保留。 */
-.bookmark-dock .bookmark-item__name {
+.bookmark-dock .bookmark-card__name {
   display: none;
 }
 
 /* 让 Dock 图标容器更紧凑，并保留普通书签的悬停动画。 */
-.bookmark-dock .bookmark-item__icon {
+.bookmark-dock .bookmark-card__icon {
   box-sizing: border-box;
   width: 64px;
   height: 64px;
