@@ -59,8 +59,47 @@ test('Dock View 渲染收藏区与 DevTools 聚合入口', () => {
   assert.equal(container.children[0].children[2].children[0].tagName, 'button');
   assert.equal(container.children[0].children[2].children[0].attributes.get('aria-label'), '打开 DevTools 工具列表');
   assert.equal(container.children[0].children[2].children[0].attributes.get('aria-expanded'), 'false');
-  assert.equal(container.children[0].children[2].children[1].className, 'bookmark-popover');
+  assert.equal(container.children[0].children[2].children[1].className, 'popover');
   assert.equal(container.children[0].children[2].children[1].children[0].className, 'bookmark-list');
+});
+
+test('Dock 中选择 DevTools 工具后复用标签组工具并随机设置首个组颜色', async () => {
+  const originalChrome = globalThis.chrome;
+  const calls = { created: null, grouped: null, updated: null };
+  globalThis.chrome = {
+    runtime: { getURL: (path) => `chrome-extension://mytabs/${path}` },
+    tabs: {
+      create: async (options) => {
+        calls.created = options;
+        return { id: 1, windowId: 2 };
+      },
+      group: async (options) => {
+        calls.grouped = options;
+        return 3;
+      },
+    },
+    tabGroups: {
+      query: async () => [],
+      update: async (groupId, options) => { calls.updated = { groupId, options }; },
+    },
+  };
+  try {
+    const document = createDocument();
+    const container = document.createElement('aside');
+    renderBookmarkDock(document, container, DOCK_FAVORITES, DOCK_DEVTOOLS);
+    const toolLink = container.children[0].children[2].children[1].children[0].children[0].children[0];
+    let prevented = false;
+
+    await toolLink.listeners.get('click')({ preventDefault() { prevented = true; } });
+
+    assert.equal(prevented, true);
+    assert.deepEqual(calls.created, { url: DOCK_DEVTOOLS.bookmarks[0].url, active: true });
+    assert.deepEqual(calls.grouped, { tabIds: [1] });
+    assert.equal(calls.updated.groupId, 3);
+    assert.equal(calls.updated.options.title, 'DevTools');
+  } finally {
+    globalThis.chrome = originalChrome;
+  }
 });
 
 // 验证 Dock View 将布局样式与页面入口共同维护。
@@ -72,5 +111,6 @@ test('Dock View 使用左右分区和 64 像素分隔线', async () => {
 
   assert.match(styles, /\.bookmark-dock__divider\s*\{[^}]*width:\s*1px;[^}]*height:\s*64px;[^}]*background:\s*#e4e4e7;/s);
   assert.match(styles, /\.bookmark-dock__favorites\s*\{[^}]*display:\s*flex;[^}]*gap:\s*8px;/s);
-  assert.match(styles, /\.bookmark-dock__tools \.bookmark-popover\s*\{[^}]*left:\s*50%;[^}]*transform:\s*translateX\(-50%\);/s);
+  assert.match(styles, /\.bookmark-dock__tools \.popover\s*\{[^}]*left:\s*50%;[^}]*transform:\s*translateX\(-50%\);/s);
+  assert.match(styles, /\.bookmark-dock__tool\[aria-expanded='true'\] \.bookmark-card__icon\s*\{[^}]*transform:\s*none;/s);
 });

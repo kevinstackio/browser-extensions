@@ -30,7 +30,7 @@
 }
 
 /* DevTools 浮层锚定在工具入口上方，不遮挡底部 Dock。 */
-.bookmark-dock__tools .bookmark-popover {
+.bookmark-dock__tools .popover {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 12px);
@@ -69,4 +69,20 @@
   border: 0;
   background: transparent;
   cursor: pointer;
+}
+
+/* 菜单触发器保持稳定，展开时以背景与边框提示激活状态而不向上浮起。 */
+.bookmark-dock__tool:hover .bookmark-card__icon,
+.bookmark-dock__tool:focus-visible .bookmark-card__icon,
+.bookmark-dock__tool[aria-expanded='true'] .bookmark-card__icon {
+  transform: none;
+  border-color: #a1a1aa;
+  background: #f4f4f5;
+  box-shadow: none;
+}
+
+.bookmark-dock__tool:hover .bookmark-card__icon img,
+.bookmark-dock__tool:focus-visible .bookmark-card__icon img,
+.bookmark-dock__tool[aria-expanded='true'] .bookmark-card__icon img {
+  transform: none;
 }

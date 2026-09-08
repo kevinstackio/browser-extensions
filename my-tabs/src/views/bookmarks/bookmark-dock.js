@@ -1,7 +1,8 @@
 import { createBookmarkCard } from '../../components/bookmark-card/index.js';
 import { createBookmarkList } from '../../components/bookmark-list/index.js';
-import { createBookmarkPopover } from '../../components/bookmark-popover/index.js';
+import { createPopover } from '../../components/popover/index.js';
 import { getExtensionAsset } from '../../utils/common.js';
+import { openBookmarkInGroup } from '../../utils/tab.js';
 
 /**
  * 将固定书签列表渲染为页面底部的 Dock。
@@ -20,8 +21,13 @@ export function renderBookmarkDock(document, container, favorites, devtools) {
   const toolButton = document.createElement('button');
   const iconContainer = document.createElement('span');
   const icon = document.createElement('img');
-  const toolList = createBookmarkList(document, devtools.bookmarks);
-  const popover = createBookmarkPopover(document, toolButton, toolList);
+  const toolList = createBookmarkList(
+    document,
+    devtools.bookmarks,
+    // Dock 作为业务边界，负责把所选工具放入 DevTools 浏览器标签组。
+    (bookmark) => openBookmarkInGroup(chrome, devtools, bookmark),
+  );
+  const popover = createPopover(document, toolButton, toolList);
 
   dock.className = 'bookmark-dock';
   dock.setAttribute('aria-label', '固定书签');
