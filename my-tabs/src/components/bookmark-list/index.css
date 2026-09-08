@@ -24,6 +24,11 @@
 }
 
 .bookmark-list__item img {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
+}
+
+/* 工具名称使用与书签卡片一致的强调字重。 */
+.bookmark-list__item span {
+  font-weight: 600;
 }

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { createBookmarkList } from '../../components/bookmark-list/index.js';
 
 class FakeElement {
@@ -38,4 +39,15 @@ test('书签列表可将点击事件交给外层处理，而不耦合浏览器�
 
   assert.equal(prevented, true);
   assert.equal(selectedBookmark, bookmark);
+});
+
+test('书签列表使用 16 像素图标与横向链接行', async () => {
+  const styles = await readFile(
+    new URL('../../components/bookmark-list/index.css', import.meta.url),
+    'utf8',
+  );
+
+  assert.match(styles, /\.bookmark-list__item\s*\{[^}]*display:\s*flex;[^}]*align-items:\s*center;/s);
+  assert.match(styles, /\.bookmark-list__item img\s*\{[^}]*width:\s*16px;[^}]*height:\s*16px;/s);
+  assert.match(styles, /\.bookmark-list__item span\s*\{[^}]*font-weight:\s*600;/s);
 });
