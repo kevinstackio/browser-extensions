@@ -7,17 +7,17 @@
     "tabGroups"
   ],
   "icons": {
-    "16": "src/assets/icons/my-tabs-16.png",
-    "32": "src/assets/icons/my-tabs-32.png",
-    "48": "src/assets/icons/my-tabs-48.png",
-    "128": "src/assets/icons/my-tabs-128.png"
+    "16": "src/assets/icons/my-tabs-dark-16.png",
+    "32": "src/assets/icons/my-tabs-dark-32.png",
+    "48": "src/assets/icons/my-tabs-dark-48.png",
+    "128": "src/assets/icons/my-tabs-dark-128.png"
   },
   "action": {
     "default_icon": {
-      "16": "src/assets/icons/my-tabs-16.png",
-      "32": "src/assets/icons/my-tabs-32.png",
-      "48": "src/assets/icons/my-tabs-48.png",
-      "128": "src/assets/icons/my-tabs-128.png"
+      "16": "src/assets/icons/my-tabs-dark-16.png",
+      "32": "src/assets/icons/my-tabs-dark-32.png",
+      "48": "src/assets/icons/my-tabs-dark-48.png",
+      "128": "src/assets/icons/my-tabs-dark-128.png"
     },
     "default_title": "My Tabs"
   },
