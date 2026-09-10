@@ -23,17 +23,22 @@
 }
 
 .bookmark-dock__tools {
-  position: relative;
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
 }
 
-/* DevTools 浮层锚定在工具入口上方，不遮挡底部 Dock。 */
-.bookmark-dock__tools .popover {
+/* 每个工具浮层锚定在自身入口上方，不遮挡底部 Dock。 */
+.bookmark-dock__group {
+  position: relative;
+  display: flex;
+}
+
+.bookmark-dock__group .popover {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 12px);
+  min-width: 160px;
   transform: translateX(-50%);
 }
 

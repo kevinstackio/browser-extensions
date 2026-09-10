@@ -15,7 +15,7 @@ test('书签列表将工具配置渲染为安全的新标签页链接', () => {
   globalThis.chrome = { runtime: { getURL: (path) => `chrome-extension://mytabs/${path}` } };
   try {
     const document = { createElement: (tagName) => new FakeElement(tagName) };
-    const list = createBookmarkList(document, [{ name: 'Google Translate', url: 'https://translate.google.com', icon: 'brand/googletranslate.svg' }]);
+    const list = createBookmarkList(document, [{ name: 'Google Translate', url: 'https://translate.google.com', icon: 'tools/google-translate.png' }]);
     const link = list.children[0].children[0];
     assert.equal(list.className, 'bookmark-list');
     assert.equal(link.attributes.get('target'), '_blank');
@@ -26,7 +26,7 @@ test('书签列表将工具配置渲染为安全的新标签页链接', () => {
 
 test('书签列表可将点击事件交给外层处理，而不耦合浏览器业务', () => {
   const document = { createElement: (tagName) => new FakeElement(tagName) };
-  const bookmark = { name: 'Google Translate', url: 'https://translate.google.com', icon: 'brand/googletranslate.svg' };
+  const bookmark = { name: 'Google Translate', url: 'https://translate.google.com', icon: 'tools/google-translate.png' };
   let selectedBookmark;
   let prevented = false;
   const list = createBookmarkList(document, [bookmark], (selected) => {

@@ -33,9 +33,25 @@ export const BOOKMARK_GRID = [
 
 // Dock 收藏区只保存直接可点击的常用书签。
 export const DOCK_FAVORITES = [
+  { type: 'bookmark', id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com', icon: 'brand/chatgpt.svg' },
   { type: 'bookmark', id: 'github', name: 'GitHub', url: 'https://github.com', icon: 'brand/github.svg' },
   { type: 'bookmark', id: 'gmail', name: 'Gmail', url: 'https://mail.google.com', icon: 'brand/gmail.svg' },
 ];
+
+// Components 与 DevTools 都是 Dock 内的聚合入口，内部书签按各自名称加入标签组。
+export const DOCK_COMPONENTS = {
+  type: 'bookmark-group',
+  id: 'components',
+  name: 'Components',
+  icon: 'icons/components.svg',
+  bookmarks: [
+    { type: 'bookmark', id: 'lucide', name: 'Lucide', url: 'https://lucide.dev', icon: 'tools/lucide.svg' },
+    { type: 'bookmark', id: 'iconfont', name: 'Iconfont', url: 'https://www.iconfont.cn', icon: 'tools/iconfont.svg' },
+    { type: 'bookmark', id: 'antd', name: 'Ant Design', url: 'https://ant.design', icon: 'tools/antd.svg' },
+    { type: 'bookmark', id: 'element-ui', name: 'Element UI', url: 'https://element.eleme.io', icon: 'tools/element-ui.svg' },
+    { type: 'bookmark', id: 'element-plus', name: 'Element Plus', url: 'https://element-plus.org', icon: 'tools/element-plus.svg' },
+  ],
+};
 
 // DevTools 卡片与其内部工具列表必须保持同一配置，供后续 Popover 直接消费。
 export const DOCK_DEVTOOLS = {
@@ -49,7 +65,7 @@ export const DOCK_DEVTOOLS = {
       id: 'google-translate',
       name: 'Google Translate',
       url: 'https://translate.google.com/?hl=zh-cn&sl=en&tl=zh-CN&op=translate',
-      icon: 'brand/googletranslate.svg',
+      icon: 'tools/google-translate.png',
     },
   ],
 };

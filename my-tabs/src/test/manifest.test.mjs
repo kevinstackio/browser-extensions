@@ -66,6 +66,17 @@ test('开发工具书签图标遵循 Simple Icons 风格', async () => {
   assert.doesNotMatch(icon, /<\?xml|<!DOCTYPE|class=|p-id=|width=|height=|stroke=|opacity|<line|<rect|<image/);
 });
 
+// 验证收藏品牌图标使用紧凑画布，避免在 Dock 中因原始留白显得过小。
+test('ChatGPT 收藏图标遵循品牌 SVG 规范', async () => {
+  const icon = await readFile(new URL('../assets/brand/chatgpt.svg', import.meta.url), 'utf8');
+
+  assert.match(icon, /<svg role="img" viewBox="0 0 24 24"/);
+  assert.match(icon, /<title id="chatgpt-title">ChatGPT<\/title>/);
+  assert.match(icon, /aria-labelledby="chatgpt-title"/);
+  assert.equal((icon.match(/<path /g) ?? []).length, 1);
+  assert.doesNotMatch(icon, /<\?xml|<!DOCTYPE|class=|p-id=|width=|height=|stroke=|opacity|<line|<rect|<image/);
+});
+
 // 验证根目录规范持续约束项目、资源与测试结构。
 test('根目录约定包含项目、资源与测试规范', async () => {
   const instructions = await readFile(new URL('../../../AGENTS.md', import.meta.url), 'utf8');

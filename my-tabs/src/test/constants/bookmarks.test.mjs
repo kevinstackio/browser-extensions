@@ -1,10 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  BOOKMARK_GRID,
-  DOCK_DEVTOOLS,
-  DOCK_FAVORITES,
-} from '../../constants/bookmarks.js';
+import * as bookmarkConfig from '../../constants/bookmarks.js';
+
+const { BOOKMARK_GRID, DOCK_DEVTOOLS, DOCK_FAVORITES } = bookmarkConfig;
 
 // 验证书签配置按 Grid、Dock 收藏和 DevTools 聚合入口分别导出。
 test('书签配置按使用场景提供具名数据源', () => {
@@ -41,7 +39,21 @@ test('书签配置按使用场景提供具名数据源', () => {
   assert.deepEqual(DOCK_FAVORITES, [
     { type: 'bookmark', id: 'github', name: 'GitHub', url: 'https://github.com', icon: 'brand/github.svg' },
     { type: 'bookmark', id: 'gmail', name: 'Gmail', url: 'https://mail.google.com', icon: 'brand/gmail.svg' },
+    { type: 'bookmark', id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com', icon: 'brand/chatgpt.svg' },
   ]);
+  assert.deepEqual(bookmarkConfig.DOCK_COMPONENTS, {
+    type: 'bookmark-group',
+    id: 'components',
+    name: 'Components',
+    icon: 'icons/components.svg',
+    bookmarks: [
+      { type: 'bookmark', id: 'element-ui', name: 'Element UI', url: 'https://element.eleme.io', icon: 'tools/element-ui.svg' },
+      { type: 'bookmark', id: 'element-plus', name: 'Element Plus', url: 'https://element-plus.org', icon: 'tools/element-plus.svg' },
+      { type: 'bookmark', id: 'antd', name: 'Ant Design', url: 'https://ant.design', icon: 'tools/antd.svg' },
+      { type: 'bookmark', id: 'lucide', name: 'Lucide', url: 'https://lucide.dev', icon: 'tools/lucide.svg' },
+      { type: 'bookmark', id: 'iconfont', name: 'Iconfont', url: 'https://www.iconfont.cn', icon: 'tools/iconfont.svg' },
+    ],
+  });
   assert.deepEqual(DOCK_DEVTOOLS, {
     type: 'bookmark-group',
     id: 'devtools',
@@ -53,7 +65,7 @@ test('书签配置按使用场景提供具名数据源', () => {
         id: 'google-translate',
         name: 'Google Translate',
         url: 'https://translate.google.com/?hl=zh-cn&sl=en&tl=zh-CN&op=translate',
-        icon: 'brand/googletranslate.svg',
+        icon: 'tools/google-translate.png',
       },
     ],
   });

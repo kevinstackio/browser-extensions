@@ -10,24 +10,16 @@ import { openBookmarkInGroup } from '../../utils/tab.js';
  * @param {Document} document 用于创建 Dock 节点的页面文档。
  * @param {HTMLElement} container 接收底部 Dock 的容器节点。
  * @param {Array<object>} favorites 要固定展示的普通书签列表。
- * @param {{name: string, icon: string}} devtools DevTools 聚合书签配置。
+ * @param {{name: string, icon: string, bookmarks: Array<object>}} components Components 聚合书签配置。
+ * @param {{name: string, icon: string, bookmarks: Array<object>}} [devtools] DevTools 聚合书签配置。
  * @returns {void}
  */
-export function renderBookmarkDock(document, container, favorites, devtools) {
+export function renderBookmarkDock(document, container, favorites, components, devtools) {
   const dock = document.createElement('nav');
   const favoritesArea = document.createElement('div');
   const divider = document.createElement('span');
   const toolsArea = document.createElement('div');
-  const toolButton = document.createElement('button');
-  const iconContainer = document.createElement('span');
-  const icon = document.createElement('img');
-  const toolList = createBookmarkList(
-    document,
-    devtools.bookmarks,
-    // Dock 作为业务边界，负责把所选工具放入 DevTools 浏览器标签组。
-    (bookmark) => openBookmarkInGroup(chrome, devtools, bookmark),
-  );
-  const popover = createPopover(document, toolButton, toolList);
+  const groups = devtools ? [components, devtools] : [components];
 
   dock.className = 'bookmark-dock';
   dock.setAttribute('aria-label', '固定书签');
@@ -36,19 +28,42 @@ export function renderBookmarkDock(document, container, favorites, devtools) {
   divider.className = 'bookmark-dock__divider';
   divider.setAttribute('aria-hidden', 'true');
   toolsArea.className = 'bookmark-dock__tools';
-  // 仅提供可聚焦的聚合入口；Popover 与工具列表交互由 KEV-86 接入。
+  toolsArea.append(...groups.map((group) => createBookmarkToolGroup(document, group)));
+  dock.append(favoritesArea, divider, toolsArea);
+  container.append(dock);
+}
+
+/**
+ * 创建 Dock 内可展开的书签分组入口，并负责把所选书签加入对应标签组。
+ *
+ * @param {Document} document 用于创建 Dock 元素的页面文档。
+ * @param {{name: string, icon: string, bookmarks: Array<object>}} group 分组书签配置。
+ * @returns {HTMLElement} 分组入口与其 Popover 容器。
+ */
+function createBookmarkToolGroup(document, group) {
+  const element = document.createElement('div');
+  const toolButton = document.createElement('button');
+  const iconContainer = document.createElement('span');
+  const icon = document.createElement('img');
+  const toolList = createBookmarkList(
+    document,
+    group.bookmarks,
+    (bookmark) => openBookmarkInGroup(chrome, group, bookmark),
+  );
+  const popover = createPopover(document, toolButton, toolList);
+
+  element.className = 'bookmark-dock__group';
   toolButton.className = 'bookmark-card bookmark-dock__tool';
   toolButton.setAttribute('type', 'button');
-  toolButton.setAttribute('aria-label', `打开 ${devtools.name} 工具列表`);
+  toolButton.setAttribute('aria-label', `打开 ${group.name} 工具列表`);
   toolButton.setAttribute('aria-expanded', 'false');
   iconContainer.className = 'bookmark-card__icon';
-  icon.setAttribute('src', getExtensionAsset(devtools.icon));
+  icon.setAttribute('src', getExtensionAsset(group.icon));
   icon.setAttribute('alt', '');
   icon.setAttribute('aria-hidden', 'true');
   iconContainer.append(icon);
   toolButton.append(iconContainer);
-  // 聚合入口与浮层同属工具区，供 View 负责定位而不泄漏到通用组件。
-  toolsArea.append(toolButton, popover.element);
-  dock.append(favoritesArea, divider, toolsArea);
-  container.append(dock);
+  element.append(toolButton, popover.element);
+
+  return element;
 }
