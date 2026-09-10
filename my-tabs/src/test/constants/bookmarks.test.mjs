@@ -46,7 +46,7 @@ test('书签配置按使用场景提供具名数据源', () => {
     type: 'bookmark-group',
     id: 'devtools',
     name: 'DevTools',
-    icon: 'brand/devtools.svg',
+    icon: 'icons/devtools.svg',
     bookmarks: [
       {
         type: 'bookmark',

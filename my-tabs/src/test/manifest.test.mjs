@@ -4,7 +4,7 @@ import { readFile, stat } from 'node:fs/promises';
 
 const iconSizes = [16, 32, 48, 128];
 const darkIcons = Object.fromEntries(
-  iconSizes.map((size) => [size, `src/assets/icons/my-tabs-dark-${size}.png`]),
+  iconSizes.map((size) => [size, `src/assets/logo/my-tabs-dark-${size}.png`]),
 );
 
 // 验证扩展配置将首页设置为浏览器新标签页，并申请标签组权限。
@@ -37,14 +37,14 @@ test('首页加载书签入口', async () => {
   assert.match(home, /data-bookmarks/);
   assert.match(home, /data-bookmark-dock/);
   assert.match(home, /<script type="module" src="index\.js"><\/script>/);
-  assert.match(home, /<link rel="icon" href="..\/..\/assets\/icons\/my-tabs-dark-16\.png">/);
+  assert.match(home, /<link rel="icon" href="..\/..\/assets\/logo\/my-tabs-dark-16\.png">/);
 });
 
 // 验证深浅色图标均以完整的 PNG 尺寸集交付，避免主题资源缺失。
 test('深浅色图标提供完整且尺寸正确的 PNG 资源', async () => {
   for (const theme of ['dark', 'light']) {
     for (const size of iconSizes) {
-      const icon = new URL(`../assets/icons/my-tabs-${theme}-${size}.png`, import.meta.url);
+      const icon = new URL(`../assets/logo/my-tabs-${theme}-${size}.png`, import.meta.url);
       const [metadata, content] = await Promise.all([stat(icon), readFile(icon)]);
 
       assert.equal(metadata.size > 0, true);
@@ -57,7 +57,7 @@ test('深浅色图标提供完整且尺寸正确的 PNG 资源', async () => {
 
 // 验证未收录于 Simple Icons 的开发工具图标保持书签品牌 SVG 结构。
 test('开发工具书签图标遵循 Simple Icons 风格', async () => {
-  const icon = await readFile(new URL('../assets/brand/devtools.svg', import.meta.url), 'utf8');
+  const icon = await readFile(new URL('../assets/icons/devtools.svg', import.meta.url), 'utf8');
 
   assert.match(icon, /<svg role="img" viewBox="0 0 24 24"/);
   assert.match(icon, /<title>DevTools<\/title>/);

@@ -42,7 +42,7 @@ export const DOCK_DEVTOOLS = {
   type: 'bookmark-group',
   id: 'devtools',
   name: 'DevTools',
-  icon: 'brand/devtools.svg',
+  icon: 'icons/devtools.svg',
   bookmarks: [
     {
       type: 'bookmark',

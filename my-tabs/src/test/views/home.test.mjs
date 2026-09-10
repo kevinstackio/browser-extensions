@@ -92,30 +92,30 @@ test('首页根据系统配色切换工具栏图标', () => {
     });
     assert.deepEqual(actionCalls, [{
       path: {
-        16: '/src/assets/icons/my-tabs-light-16.png',
-        32: '/src/assets/icons/my-tabs-light-32.png',
-        48: '/src/assets/icons/my-tabs-light-48.png',
-        128: '/src/assets/icons/my-tabs-light-128.png',
+        16: '/src/assets/logo/my-tabs-light-16.png',
+        32: '/src/assets/logo/my-tabs-light-32.png',
+        48: '/src/assets/logo/my-tabs-light-48.png',
+        128: '/src/assets/logo/my-tabs-light-128.png',
       },
     }]);
     assert.equal(
       favicon.attributes.get('href'),
-      'chrome-extension://test/src/assets/icons/my-tabs-light-16.png',
+      'chrome-extension://test/src/assets/logo/my-tabs-light-16.png',
     );
 
     media.matches = false;
     for (const listener of listeners) listener(media);
     assert.deepEqual(actionCalls.at(-1), {
       path: {
-        16: '/src/assets/icons/my-tabs-dark-16.png',
-        32: '/src/assets/icons/my-tabs-dark-32.png',
-        48: '/src/assets/icons/my-tabs-dark-48.png',
-        128: '/src/assets/icons/my-tabs-dark-128.png',
+        16: '/src/assets/logo/my-tabs-dark-16.png',
+        32: '/src/assets/logo/my-tabs-dark-32.png',
+        48: '/src/assets/logo/my-tabs-dark-48.png',
+        128: '/src/assets/logo/my-tabs-dark-128.png',
       },
     });
     assert.equal(
       favicon.attributes.get('href'),
-      'chrome-extension://test/src/assets/icons/my-tabs-dark-16.png',
+      'chrome-extension://test/src/assets/logo/my-tabs-dark-16.png',
     );
   } finally {
     if (previousChrome === undefined) delete globalThis.chrome;
