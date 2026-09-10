@@ -21,21 +21,39 @@
   });
 
   /**
-   * 创建并维护唯一的“另存为”右键菜单实例。
+   * 创建并维护唯一的下载右键菜单实例。
    *
    * @param {Document} document 用于创建与挂载菜单节点的页面文档。
-   * @param {() => void} onSave 用户点击“另存为”后的下载处理函数。
-   * @returns {{close: () => void, open: (pointer: object) => void, loading: () => void, result: (text: string) => void, contains: (target: EventTarget) => boolean, busy: () => boolean}} 菜单状态与操作控制器。
+   * @param {() => void} onSave 用户点击下载按钮后的下载处理函数。
+   * @returns {{close: () => void, dismiss: (duration: number) => void, open: (pointer: object) => void, loading: () => void, result: (text: string) => void, ready: () => void, contains: (target: EventTarget) => boolean, busy: () => boolean}} 菜单状态与操作控制器。
    */
   api.createMenu = (document, onSave) => {
     let card;
     let button;
+    let icon;
+    let label;
+    // 同步按钮状态的文字与图标。
+    const setState = (text, iconName) => {
+      icon.src = api.getExtensionAsset(`icons/${iconName}.svg`);
+      label.textContent = text;
+    };
     /**
      * 移除当前菜单节点并释放对应的状态引用。
      *
      * @returns {void}
      */
     const close = () => { card?.remove(); card = undefined; button = undefined; };
+    /**
+     * 以淡出动画关闭当前菜单。
+     *
+     * @param {number} duration 淡出动画时长，单位为毫秒。
+     * @returns {void}
+     */
+    const dismiss = (duration) => {
+      if (!card) return;
+      card.classList.add('tg-download-menu--leaving');
+      globalThis.setTimeout(close, duration);
+    };
     /**
      * 在指针坐标处创建菜单，并在必要时将其限制于视口内。
      *
@@ -50,7 +68,14 @@
       card.className = 'tg-download-menu';
       button.className = 'tg-download-menu__item';
       button.type = 'button';
-      button.textContent = '另存为';
+      icon = document.createElement('img');
+      label = document.createElement('span');
+      icon.className = 'tg-download-menu__icon';
+      icon.alt = '';
+      icon.setAttribute('aria-hidden', 'true');
+      label.className = 'tg-download-menu__label';
+      button.append(icon, label);
+      setState('下载资源', 'download');
       button.addEventListener('click', onSave);
       card.append(button);
       document.body.append(card);
@@ -64,14 +89,16 @@
      *
      * @returns {void}
      */
-    const loading = () => { if (button) { button.disabled = true; button.textContent = '下载中…'; } };
+    const loading = () => { if (button) { button.disabled = true; setState('正在下载', 'loader'); } };
     /**
      * 更新菜单项的可见结果文字，并恢复可点击状态。
      *
      * @param {string} text 要展示给用户的结果文本。
      * @returns {void}
      */
-    const result = (text) => { if (button) { button.disabled = false; button.textContent = text; } };
+    const result = (text) => { if (button) { button.disabled = false; setState(text, 'download'); } };
+    // 恢复初始下载文案，供失败后的用户再次尝试。
+    const ready = () => { if (button) { button.disabled = false; setState('下载资源', 'download'); } };
     /**
      * 判断事件目标是否位于当前菜单内部。
      *
@@ -85,6 +112,6 @@
      * @returns {boolean} 是否正在下载。
      */
     const busy = () => Boolean(button?.disabled);
-    return { close, open, loading, result, contains, busy };
+    return { close, dismiss, open, loading, result, ready, contains, busy };
   };
 })();

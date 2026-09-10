@@ -1,8 +1,15 @@
-/* 右键菜单固定在视口上层，避免被 Telegram 预览遮挡。 */
-.tg-download-menu { position: fixed; z-index: 2147483647; min-width: 184px; padding: 4px; border-radius: 8px; background: #fff; box-shadow: 0 4px 16px rgb(0 0 0 / 22%); }
-/* 菜单项使用 Telegram 页面之外的最小化视觉规则。 */
-.tg-download-menu__item { width: 100%; border: 0; padding: 8px 12px; border-radius: 5px; background: transparent; color: #222; cursor: pointer; font: 14px system-ui, sans-serif; text-align: left; }
+/* 下载按钮固定在视口上层，避免被 Telegram 预览遮挡。 */
+.tg-download-menu { position: fixed; z-index: 2147483647; opacity: 1; transition: opacity .3s ease; }
+/* 菜单仅保留 Telegram 蓝色下载按钮，不显示额外白色外框。 */
+.tg-download-menu__item { display: flex; min-width: 184px; align-items: center; justify-content: center; gap: 8px; border: 0; padding: 9px 14px; border-radius: 7px; background: #2481cc; color: #fff; cursor: pointer; font: 14px system-ui, sans-serif; }
 /* 未禁用时才显示悬停反馈。 */
-.tg-download-menu__item:hover:not(:disabled) { background: #f0f0f0; }
+.tg-download-menu__item:hover:not(:disabled) { background: #1d6fae; }
 /* 下载期间通过禁用状态阻止重复操作。 */
 .tg-download-menu__item:disabled { cursor: progress; opacity: .75; }
+/* 成功后禁用交互并在 300ms 内淡出。 */
+.tg-download-menu--leaving { pointer-events: none; opacity: 0; }
+/* 下载图标与加载图标统一使用白色并保持固定尺寸。 */
+.tg-download-menu__icon { width: 16px; height: 16px; filter: brightness(0) invert(1); }
+/* 加载状态的图标持续旋转。 */
+.tg-download-menu__item:disabled .tg-download-menu__icon { animation: tg-download-spin .8s linear infinite; }
+@keyframes tg-download-spin { to { transform: rotate(360deg); } }

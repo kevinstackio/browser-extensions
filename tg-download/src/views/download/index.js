@@ -69,24 +69,27 @@
     const stamp = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
     return kind === 'VIDEO' ? `TG_VIDEO_${stamp}.mp4` : `TG_IMG_${stamp}.jpg`;
   };
+  // 暴露文件名规则，供自动化测试覆盖统一命名行为。
+  api.filenameFor = filenameFor;
   /**
    * 通过文件保存选择器下载图片或视频，并兼容完整与分段媒体响应。
    *
    * @param {HTMLImageElement | HTMLVideoElement} media 用户选中的 Telegram 媒体节点。
-   * @param {{loading: () => void, close: () => void, result: (text: string) => void}} menu 当前右键菜单控制器。
+   * @param {{loading: () => void, close: () => void, dismiss: (duration: number) => void, ready: () => void, result: (text: string) => void}} menu 当前右键菜单控制器。
    * @returns {Promise<void>}
    */
   async function save(media, menu) {
     const src = media.currentSrc || media.src;
     if (!src || !globalThis.showSaveFilePicker) return;
     let writable;
+    let loadingStartedAt = 0;
     try {
       const handle = await globalThis.showSaveFilePicker({
         // 优先在用户桌面打开保存窗口，用户仍可手动选择其他位置。
         startIn: 'desktop',
         suggestedName: filenameFor(media.tagName),
       });
-      writable = await handle.createWritable(); menu.loading();
+      writable = await handle.createWritable(); loadingStartedAt = Date.now(); menu.loading();
       let offset = 0; let total = 0;
       // 206 按 Content-Range 继续请求下一段；200 则一次写完。
       for (;;) {
@@ -99,20 +102,39 @@
         if (response.status === 200 || !range || offset >= range.total) break;
       }
       await writable.close();
-      // 文件写入完成后立即关闭菜单，避免保留下载中的禁用光标。
-      menu.close();
+      // 即使资源很小，也保留最短加载时间让用户看到旋转状态。
+      const remaining = Math.max(0, 300 - (Date.now() - loadingStartedAt));
+      globalThis.setTimeout(() => {
+        menu.result('下载成功');
+        // 成功状态以 300ms 淡出，避免菜单瞬间消失。
+        if (menu.dismiss) menu.dismiss(300); else menu.close();
+      }, remaining);
     } catch (error) {
       // 用户取消系统文件选择器时不产生网络请求或失败提示。
       if (error?.name === 'AbortError') { menu.close(); return; }
-      await writable?.abort?.(); menu.result('保存失败');
+      await writable?.abort?.();
+      // 详细失败原因仅保留在控制台，避免菜单文字过长。
+      console.error('TG Download 下载失败：', error);
+      menu.result('下载失败');
+      globalThis.setTimeout(() => menu.ready(), 1000);
     }
   }
+  // 暴露保存流程，供自动化测试覆盖取消与失败收尾。
+  api.save = save;
   // 仅在真实页面环境安装交互；测试环境只调用导出函数。
   if (globalThis.document?.addEventListener) {
     let active;
     const menu = api.createMenu(document, () => active && save(active, menu));
-    // 仅拦截预览媒体区域的右键，其他 Telegram 区域保留原生菜单。
-    document.addEventListener('contextmenu', event => { const media = mediaAt(event.target, event.clientX, event.clientY); if (!media || !media.closest?.(viewer)) return; event.preventDefault(); active = media; menu.open({ x: event.clientX, y: event.clientY }); }, true);
+    // 仅拦截放大预览层中的实际图片或视频，其他位置保留 Telegram 原生菜单。
+    document.addEventListener('contextmenu', event => {
+      // 下载尚未结束时保持当前禁用菜单，防止状态写入后续打开的菜单。
+      if (menu.busy()) return;
+      const media = mediaAt(event.target, event.clientX, event.clientY);
+      if (!media || !media.closest?.('.media-viewer-mover')) return;
+      event.preventDefault();
+      active = media;
+      menu.open({ x: event.clientX, y: event.clientY });
+    }, true);
     document.addEventListener('pointerdown', event => { if (!menu.busy() && !menu.contains(event.target)) menu.close(); });
     globalThis.addEventListener?.('keydown', event => { if (event.key === 'Escape' && !menu.busy()) menu.close(); }, true);
   }
