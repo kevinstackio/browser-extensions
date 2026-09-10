@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
+
+const iconSizes = [16, 32, 48, 128];
+const darkIcons = Object.fromEntries(
+  iconSizes.map((size) => [size, `src/assets/icons/my-tabs-dark-${size}.png`]),
+);
 
 // 验证扩展配置将首页设置为浏览器新标签页，并申请标签组权限。
 test('Manifest 覆盖新标签页并声明标签组权限', async () => {
@@ -13,17 +18,12 @@ test('Manifest 覆盖新标签页并声明标签组权限', async () => {
   assert.equal(manifest.version, '1.0.0');
   assert.equal(manifest.description, '我的标签页，保存和组织我喜爱的网站。');
   assert.equal(manifest.chrome_url_overrides.newtab, 'src/views/home/index.html');
-  assert.deepEqual(manifest.icons, {
-    16: 'src/assets/icons/my-tabs-16.png',
-    32: 'src/assets/icons/my-tabs-32.png',
-    48: 'src/assets/icons/my-tabs-48.png',
-    128: 'src/assets/icons/my-tabs-128.png',
-  });
-  assert.deepEqual(manifest.action.default_icon, manifest.icons);
+  assert.deepEqual(manifest.icons, darkIcons);
+  assert.deepEqual(manifest.action.default_icon, darkIcons);
   assert.deepEqual(manifest.permissions, ['tabGroups']);
 });
 
-// 验证首页加载书签入口所需资源与挂载节点。
+// 验证首页声明书签入口、标签页图标回退资源与挂载节点。
 test('首页加载书签入口', async () => {
   const home = await readFile(new URL('../views/home/index.html', import.meta.url), 'utf8');
 
@@ -37,20 +37,22 @@ test('首页加载书签入口', async () => {
   assert.match(home, /data-bookmarks/);
   assert.match(home, /data-bookmark-dock/);
   assert.match(home, /<script type="module" src="index\.js"><\/script>/);
+  assert.match(home, /<link rel="icon" href="..\/..\/assets\/icons\/my-tabs-dark-16\.png">/);
 });
 
-// 验证品牌图标以两个重叠标签页表现标签页集合。
-test('品牌图标使用双层重叠标签页', async () => {
-  const icon = await readFile(new URL('../assets/icons/my-tabs.svg', import.meta.url), 'utf8');
+// 验证深浅色图标均以完整的 PNG 尺寸集交付，避免主题资源缺失。
+test('深浅色图标提供完整且尺寸正确的 PNG 资源', async () => {
+  for (const theme of ['dark', 'light']) {
+    for (const size of iconSizes) {
+      const icon = new URL(`../assets/icons/my-tabs-${theme}-${size}.png`, import.meta.url);
+      const [metadata, content] = await Promise.all([stat(icon), readFile(icon)]);
 
-  assert.match(icon, /viewBox="0 0 64 64"/);
-  assert.match(icon, /color="#37352F"/);
-  assert.match(icon, /<path fill="none" stroke="currentColor" stroke-width="6"/);
-  assert.match(icon, /fill="currentColor"/);
-  assert.equal((icon.match(/<path /g) ?? []).length, 2);
-  assert.match(icon, /d="M14 10h30/);
-  assert.match(icon, /d="M22 20h30/);
-  assert.doesNotMatch(icon, /opacity|<line|<rect/);
+      assert.equal(metadata.size > 0, true);
+      assert.equal(content.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])), true);
+      assert.equal(content.readUInt32BE(16), size);
+      assert.equal(content.readUInt32BE(20), size);
+    }
+  }
 });
 
 // 验证未收录于 Simple Icons 的开发工具图标保持书签品牌 SVG 结构。

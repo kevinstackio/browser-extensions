@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { BOOKMARK_GRID, DOCK_FAVORITES } from '../../constants/bookmarks.js';
-import { installBookmarks } from '../../views/home/index.js';
+import * as home from '../../views/home/index.js';
+
+const { installBookmarks } = home;
 
 // 以最小 DOM 实现模拟首页书签挂载所需的元素行为。
 class FakeElement {
@@ -52,6 +54,73 @@ test('首页挂载主书签网格与固定 Dock', () => {
   assert.equal(document.bookmarks.children.length, BOOKMARK_GRID.length);
   assert.equal(document.dock.children[0].className, 'bookmark-dock');
   assert.equal(document.dock.children[0].children[0].children.length, DOCK_FAVORITES.length);
+});
+
+// 验证首页会依据系统配色同步切换工具栏与标签页图标。
+test('首页根据系统配色切换工具栏图标', () => {
+  assert.equal(typeof home.installActionIconTheme, 'function');
+
+  const listeners = new Set();
+  const media = {
+    matches: true,
+    addEventListener: (type, listener) => {
+      if (type === 'change') listeners.add(listener);
+    },
+  };
+  const actionCalls = [];
+  const favicon = {
+    attributes: new Map(),
+    setAttribute(name, value) {
+      this.attributes.set(name, value);
+    },
+  };
+  const previousChrome = globalThis.chrome;
+  globalThis.chrome = {
+    runtime: {
+      getURL: (path) => `chrome-extension://test/${path}`,
+    },
+    action: {
+      setIcon: (details) => actionCalls.push(details),
+    },
+  };
+
+  try {
+    home.installActionIconTheme({
+      matchMedia: () => media,
+    }, {
+      querySelector: (selector) => selector === 'link[rel="icon"]' ? favicon : null,
+    });
+    assert.deepEqual(actionCalls, [{
+      path: {
+        16: '/src/assets/icons/my-tabs-light-16.png',
+        32: '/src/assets/icons/my-tabs-light-32.png',
+        48: '/src/assets/icons/my-tabs-light-48.png',
+        128: '/src/assets/icons/my-tabs-light-128.png',
+      },
+    }]);
+    assert.equal(
+      favicon.attributes.get('href'),
+      'chrome-extension://test/src/assets/icons/my-tabs-light-16.png',
+    );
+
+    media.matches = false;
+    for (const listener of listeners) listener(media);
+    assert.deepEqual(actionCalls.at(-1), {
+      path: {
+        16: '/src/assets/icons/my-tabs-dark-16.png',
+        32: '/src/assets/icons/my-tabs-dark-32.png',
+        48: '/src/assets/icons/my-tabs-dark-48.png',
+        128: '/src/assets/icons/my-tabs-dark-128.png',
+      },
+    });
+    assert.equal(
+      favicon.attributes.get('href'),
+      'chrome-extension://test/src/assets/icons/my-tabs-dark-16.png',
+    );
+  } finally {
+    if (previousChrome === undefined) delete globalThis.chrome;
+    else globalThis.chrome = previousChrome;
+  }
 });
 
 // 验证首页私有样式只负责页面容器的内边距和最小高度。
