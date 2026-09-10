@@ -10,7 +10,7 @@ test('TG Download 清单声明下载标识 PNG 图标', async () => {
     await readFile(new URL('../../manifest.json', import.meta.url)),
   );
   const icons = Object.fromEntries(
-    sizes.map((size) => [size, `src/assets/icons/tg-download-${size}.png`]),
+    sizes.map((size) => [size, `src/assets/logo/tg-download-${size}.png`]),
   );
 
   assert.deepEqual(manifest.icons, icons);
@@ -21,7 +21,7 @@ test('TG Download 清单声明下载标识 PNG 图标', async () => {
 test('TG Download 品牌 PNG 图标尺寸正确', async () => {
   for (const size of sizes) {
     const icon = await readFile(
-    new URL(`../assets/icons/tg-download-${size}.png`, import.meta.url),
+    new URL(`../assets/logo/tg-download-${size}.png`, import.meta.url),
     );
 
     assert.equal(icon.readUInt32BE(16), size);
