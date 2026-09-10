@@ -28,3 +28,25 @@ test('TG Download 品牌 PNG 图标尺寸正确', async () => {
     assert.equal(icon.readUInt32BE(20), size);
   }
 });
+
+// 验证主世界下载脚本通过隔离世界提供的资源基址加载 SVG 图标。
+test('TG Download 为主世界菜单提供扩展资源基址', async () => {
+  const manifest = JSON.parse(
+    await readFile(new URL('../../manifest.json', import.meta.url)),
+  );
+
+  assert.deepEqual(manifest.content_scripts, [
+    {
+      matches: ['https://web.telegram.org/*'],
+      js: ['src/utils/asset-base.js'],
+      run_at: 'document_idle',
+    },
+    {
+      matches: ['https://web.telegram.org/*'],
+      css: ['src/styles/menu.css'],
+      js: ['src/utils/common.js', 'src/components/menu/index.js', 'src/views/download/index.js'],
+      run_at: 'document_idle',
+      world: 'MAIN',
+    },
+  ]);
+});
