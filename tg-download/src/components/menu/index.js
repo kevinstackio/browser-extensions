@@ -32,9 +32,9 @@
     let button;
     let icon;
     let label;
-    // 同步按钮状态的文字与图标。
-    const setState = (text, iconName) => {
-      icon.src = api.getExtensionAsset(`icons/${iconName}.svg`);
+    // 同步按钮文字与状态属性，图标由 CSS 根据状态属性显示。
+    const setState = (text, state) => {
+      button.dataset.state = state;
       label.textContent = text;
     };
     /**
@@ -68,10 +68,9 @@
       card.className = 'tg-download-menu';
       button.className = 'tg-download-menu__item';
       button.type = 'button';
-      icon = document.createElement('img');
+      icon = document.createElement('span');
       label = document.createElement('span');
       icon.className = 'tg-download-menu__icon';
-      icon.alt = '';
       icon.setAttribute('aria-hidden', 'true');
       label.className = 'tg-download-menu__label';
       button.append(icon, label);
@@ -89,7 +88,7 @@
      *
      * @returns {void}
      */
-    const loading = () => { if (button) { button.disabled = true; setState('正在下载', 'loader'); } };
+    const loading = () => { if (button) { button.disabled = true; setState('正在下载', 'loading'); } };
     /**
      * 更新菜单项的可见结果文字，并恢复可点击状态。
      *

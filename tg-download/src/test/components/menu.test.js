@@ -11,7 +11,7 @@ const vm = require('node:vm');
  * @returns {object} 具备菜单代码所需方法和状态的节点替身。
  */
 function node(tagName) {
-  return { tagName, children: [], style: {}, classList: { add(...names) { this.names ||= []; this.names.push(...names); } }, append(...items) { this.children.push(...items); }, addEventListener(type, listener) { (this.listeners ||= {})[type] = listener; }, setAttribute() {}, remove() { this.removed = true; } };
+  return { tagName, children: [], dataset: {}, style: {}, classList: { add(...names) { this.names ||= []; this.names.push(...names); } }, append(...items) { this.children.push(...items); }, addEventListener(type, listener) { (this.listeners ||= {})[type] = listener; }, setAttribute() {}, remove() { this.removed = true; } };
 }
 
 // 验证右下角打开菜单时会回退到可视区域。
@@ -35,13 +35,24 @@ test('菜单显示下载状态并禁止重复点击', () => {
   const menu = sandbox.TgDownload.createMenu(document, () => {});
   menu.open({ x: 10, y: 10 });
   assert.equal(body.children[0].children[0].children[1].textContent, '下载资源');
+  assert.equal(body.children[0].children[0].dataset.state, 'download');
   menu.loading();
   assert.equal(body.children[0].children[0].disabled, true);
   assert.equal(body.children[0].children[0].children[1].textContent, '正在下载');
+  assert.equal(body.children[0].children[0].dataset.state, 'loading');
   menu.result('下载失败');
   assert.equal(body.children[0].children[0].children[1].textContent, '下载失败');
   menu.ready();
   assert.equal(body.children[0].children[0].children[1].textContent, '下载资源');
+});
+
+// 验证图标状态完全由内联样式控制，不依赖外部资源地址。
+test('菜单样式根据状态切换内联蒙版图标', () => {
+  const css = fs.readFileSync(path.join(__dirname, '../../styles/menu.css'), 'utf8');
+  assert.match(css, /data:image\/svg\+xml/);
+  assert.match(css, /mask/);
+  assert.match(css, /data-state='loading'/);
+  assert.doesNotMatch(css, /icons\/download\.svg|icons\/loader\.svg/);
 });
 
 // 验证成功状态以淡出动画关闭菜单。

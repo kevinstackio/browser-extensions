@@ -3,10 +3,6 @@
   "name": "TG Download",
   "version": "1.0.0",
   "description": "在 Telegram Web 中右键保存图片和视频。",
-  "web_accessible_resources": [{
-    "resources": ["src/assets/icons/download.svg", "src/assets/icons/loader.svg"],
-    "matches": ["https://web.telegram.org/*"]
-  }],
   "icons": {
     "16": "src/assets/logo/tg-download-16.png",
     "32": "src/assets/logo/tg-download-32.png",
@@ -29,12 +25,12 @@
     {
       "matches": ["https://web.telegram.org/*"],
       "js": ["src/utils/common.js"],
-      "run_at": "document_idle"
+      "run_at": "document_start"
     },
     {
       "matches": ["https://web.telegram.org/*"],
       "css": ["src/styles/menu.css"],
-      "js": ["src/utils/common.js", "src/components/menu/index.js", "src/views/download/index.js"],
+      "js": ["src/components/menu/index.js", "src/views/download/index.js"],
       "run_at": "document_idle",
       "world": "MAIN"
     }

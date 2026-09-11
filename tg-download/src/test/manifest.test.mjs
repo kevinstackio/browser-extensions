@@ -30,8 +30,8 @@ test('TG Download 品牌 PNG 图标尺寸正确', async () => {
   }
 });
 
-// 验证主世界下载脚本通过隔离世界提供的资源基址加载 SVG 图标。
-test('TG Download 为主世界菜单提供扩展资源基址', async () => {
+// 验证主题同步与主世界下载逻辑使用各自明确的执行环境。
+test('TG Download 分离主题同步与主世界下载脚本', async () => {
   const manifest = JSON.parse(
     await readFile(new URL('../../manifest.json', import.meta.url)),
   );
@@ -40,14 +40,15 @@ test('TG Download 为主世界菜单提供扩展资源基址', async () => {
     {
       matches: ['https://web.telegram.org/*'],
       js: ['src/utils/common.js'],
-      run_at: 'document_idle',
+      run_at: 'document_start',
     },
     {
       matches: ['https://web.telegram.org/*'],
       css: ['src/styles/menu.css'],
-      js: ['src/utils/common.js', 'src/components/menu/index.js', 'src/views/download/index.js'],
+      js: ['src/components/menu/index.js', 'src/views/download/index.js'],
       run_at: 'document_idle',
       world: 'MAIN',
     },
   ]);
+  assert.equal(manifest.web_accessible_resources, undefined);
 });
