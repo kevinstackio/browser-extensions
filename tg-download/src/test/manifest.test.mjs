@@ -15,6 +15,7 @@ test('TG Download 清单声明下载标识 PNG 图标', async () => {
 
   assert.deepEqual(manifest.icons, icons);
   assert.deepEqual(manifest.action.default_icon, icons);
+  assert.deepEqual(manifest.background, { service_worker: 'service-worker.js' });
 });
 
 // 验证每个清单图标均为对应尺寸的 PNG 文件。
@@ -38,7 +39,7 @@ test('TG Download 为主世界菜单提供扩展资源基址', async () => {
   assert.deepEqual(manifest.content_scripts, [
     {
       matches: ['https://web.telegram.org/*'],
-      js: ['src/utils/asset-base.js'],
+      js: ['src/utils/common.js'],
       run_at: 'document_idle',
     },
     {

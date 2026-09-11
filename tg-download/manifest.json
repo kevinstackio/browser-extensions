@@ -22,10 +22,13 @@
     },
     "default_title": "TG Download"
   },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
   "content_scripts": [
     {
       "matches": ["https://web.telegram.org/*"],
-      "js": ["src/utils/asset-base.js"],
+      "js": ["src/utils/common.js"],
       "run_at": "document_idle"
     },
     {
