@@ -24,14 +24,6 @@ test('菜单坐标会限制在视口内', () => {
   assert.equal(position.top, 680);
 });
 
-// 验证主世界脚本可读取隔离世界写入的静态资源基址。
-test('主世界通过页面标记生成扩展静态资源地址', () => {
-  const sandbox = { globalThis: null, document: { documentElement: { dataset: { tgDownloadAssetBase: 'chrome-extension://test/src/assets/' } } } };
-  sandbox.globalThis = sandbox;
-  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../../utils/common.js'), 'utf8'), sandbox);
-  assert.equal(sandbox.TgDownload.getExtensionAsset('icons/download.svg'), 'chrome-extension://test/src/assets/icons/download.svg');
-});
-
 // 验证下载状态会禁用菜单项。
 test('菜单显示下载状态并禁止重复点击', () => {
   const body = node('body');

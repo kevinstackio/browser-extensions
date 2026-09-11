@@ -6,7 +6,7 @@
 (() => {
   // 与菜单组件共享的私有扩展命名空间。
   const api = globalThis.TgDownload ||= {};
-  // Telegram Web 预览容器的兼容选择器。
+  // Telegram Web 预览容器的兼容选择器，用于从播放器控件回溯到媒体节点。
   const viewer = '#MediaViewer,.MediaViewer,.media-viewer,[class*="media-viewer"],[class*="MediaViewer"],[role="dialog"]';
   /**
    * 根据右键位置定位 Telegram 预览器中的实际图片或视频节点。
@@ -33,7 +33,12 @@
    * @param {string | null} value HTTP `Content-Range` 响应头。
    * @returns {{end: number, total: number} | null} 已解析的范围信息，格式不合法时返回空值。
    */
-  api.rangeInfo = (value) => { const match = /^bytes\s+\d+-(\d+)\/(\d+)$/i.exec(value || ''); return match ? { end: Number(match[1]), total: Number(match[2]) } : null; };
+  api.rangeInfo = (value) => {
+    const match = /^bytes\s+\d+-(\d+)\/(\d+)$/i.exec(value || '');
+    if (!match) return null;
+
+    return { end: Number(match[1]), total: Number(match[2]) };
+  };
   /**
    * 将网络响应流分块写入用户选择的文件，并报告累计写入字节数。
    *
@@ -48,7 +53,14 @@
     const reader = response.body?.getReader?.();
     if (!reader) return start;
     let loaded = start;
-    for (;;) { const { done, value } = await reader.read(); if (done) break; await writable.write(value); loaded += value.byteLength; onProgress(loaded, total); }
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      await writable.write(value);
+      loaded += value.byteLength;
+      onProgress(loaded, total);
+    }
     return loaded;
   };
   /**
@@ -72,7 +84,7 @@
   // 暴露文件名规则，供自动化测试覆盖统一命名行为。
   api.filenameFor = filenameFor;
   /**
-   * 通过文件保存选择器下载图片或视频，并兼容完整与分段媒体响应。
+   * 保存媒体的完整流程：先取得用户保存位置，再请求并流式写入资源。
    *
    * @param {HTMLImageElement | HTMLVideoElement} media 用户选中的 Telegram 媒体节点。
    * @param {{loading: () => void, close: () => void, dismiss: (duration: number) => void, ready: () => void, result: (text: string) => void}} menu 当前右键菜单控制器。
@@ -89,8 +101,11 @@
         startIn: 'desktop',
         suggestedName: filenameFor(media.tagName),
       });
-      writable = await handle.createWritable(); loadingStartedAt = Date.now(); menu.loading();
-      let offset = 0; let total = 0;
+      writable = await handle.createWritable();
+      loadingStartedAt = Date.now();
+      menu.loading();
+      let offset = 0;
+      let total = 0;
       // 206 按 Content-Range 继续请求下一段；200 则一次写完。
       for (;;) {
         const response = await fetch(src, { credentials: 'include', headers: { Range: `bytes=${offset}-` } });
@@ -107,11 +122,18 @@
       globalThis.setTimeout(() => {
         menu.result('下载成功');
         // 成功状态以 300ms 淡出，避免菜单瞬间消失。
-        if (menu.dismiss) menu.dismiss(300); else menu.close();
+        if (menu.dismiss) {
+          menu.dismiss(300);
+        } else {
+          menu.close();
+        }
       }, remaining);
     } catch (error) {
       // 用户取消系统文件选择器时不产生网络请求或失败提示。
-      if (error?.name === 'AbortError') { menu.close(); return; }
+      if (error?.name === 'AbortError') {
+        menu.close();
+        return;
+      }
       await writable?.abort?.();
       // 详细失败原因仅保留在控制台，避免菜单文字过长。
       console.error('TG Download 下载失败：', error);

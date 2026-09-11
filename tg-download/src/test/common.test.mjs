@@ -39,7 +39,18 @@ function runCommonInIsolatedWorld({ matches }) {
 
   vm.runInNewContext(commonScript, context);
 
-  return { colorScheme, document, listeners, messageCalls };
+  return { api: context.TgDownload, colorScheme, document, listeners, messageCalls };
+}
+
+// 模拟主世界，验证其只读取隔离世界写入的资源基址。
+function runCommonInMainWorld() {
+  const context = {
+    document: { documentElement: { dataset: { tgDownloadAssetBase: 'chrome-extension://test/src/assets/' } } },
+  };
+
+  vm.runInNewContext(commonScript, context);
+
+  return context.TgDownload;
 }
 
 function runServiceWorker() {
@@ -75,6 +86,19 @@ test('系统主题变为浅色时通知扩展恢复黑线图标', () => {
   listeners[0]?.({ matches: false });
 
   assert.deepEqual(messageCalls.at(-1), { type: 'tg-download-theme', theme: 'dark' });
+});
+
+// 验证页面环境即使可访问扩展 API，也会初始化菜单所需的资源方法。
+test('可访问扩展 API 时仍初始化菜单资源方法', () => {
+  const { api } = runCommonInIsolatedWorld({ matches: false });
+
+  assert.equal(api.getExtensionAsset('icons/download.svg'), 'chrome-extension://test/src/assets/icons/download.svg');
+});
+
+test('主世界将资源方法挂载到共享命名空间', () => {
+  const api = runCommonInMainWorld();
+
+  assert.equal(api.getExtensionAsset('icons/loader.svg'), 'chrome-extension://test/src/assets/icons/loader.svg');
 });
 
 test('扩展服务工作线程将白线主题应用到工具栏图标', () => {
