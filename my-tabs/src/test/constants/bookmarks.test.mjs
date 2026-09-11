@@ -35,6 +35,17 @@ test('书签配置按使用场景提供具名数据源', () => {
           { id: 'notion', name: 'Notion', url: 'https://www.notion.so', icon: 'brand/notion.svg' },
         ],
       },
+      {
+        type: 'folder',
+        id: 'edu',
+        name: 'EDU',
+        items: [
+          { id: 'pmi', name: 'PMI', url: 'https://www.pmi.org/', icon: 'brand/text-pmi.svg' },
+          { id: 'jlpt', name: 'JLPT', url: 'https://jlpt-main.neea.cn/', icon: 'brand/text-jlpt.svg' },
+          { id: 'ielts', name: 'IELTS', url: 'https://ielts.neea.cn/', icon: 'brand/text-ielts.svg' },
+          { id: 'chsi', name: '学信网', url: 'https://www.chsi.com.cn/', icon: 'brand/text-chsi.svg' },
+        ],
+      },
   ]);
   assert.deepEqual(DOCK_FAVORITES, [
     { type: 'bookmark', id: 'github', name: 'GitHub', url: 'https://github.com', icon: 'brand/github.svg' },

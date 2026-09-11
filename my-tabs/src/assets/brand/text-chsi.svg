@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">学信</title>
+  <text
+    x="64"
+    y="67"
+    fill="#000"
+    font-family="Microsoft YaHei, Noto Sans CJK SC, SimHei, sans-serif"
+    font-size="40"
+    font-weight="700"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    transform="translate(64 64) scale(1.18 1.40) translate(-64 -64)"
+  >学信</text>
+</svg>
