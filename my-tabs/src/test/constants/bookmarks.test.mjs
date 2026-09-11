@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as bookmarkConfig from '../../constants/bookmarks.js';
 
-const { BOOKMARK_GRID, DOCK_DEVTOOLS, DOCK_FAVORITES } = bookmarkConfig;
+const { BOOKMARK_GRID, DOCK_COMPONENTS, DOCK_DEVTOOLS, DOCK_FAVORITES } = bookmarkConfig;
 
-// 验证书签配置按 Grid、Dock 收藏和 DevTools 聚合入口分别导出。
-test('书签配置按使用场景提供具名数据源', () => {
+// 验证 Grid 书签配置包含 EDU 文件夹和文字 SVG 入口。
+test('Grid 书签配置提供 EDU 文件夹', () => {
   assert.deepEqual(BOOKMARK_GRID, [
       {
         type: 'folder',
@@ -39,6 +39,7 @@ test('书签配置按使用场景提供具名数据源', () => {
         type: 'folder',
         id: 'edu',
         name: 'EDU',
+        blur: true,
         items: [
           { id: 'pmi', name: 'PMI', url: 'https://www.pmi.org/', icon: 'brand/text-pmi.svg' },
           { id: 'jlpt', name: 'JLPT', url: 'https://jlpt-main.neea.cn/', icon: 'brand/text-jlpt.svg' },
@@ -47,24 +48,33 @@ test('书签配置按使用场景提供具名数据源', () => {
         ],
       },
   ]);
+});
+
+test('Dock 收藏配置保持当前常用入口顺序', () => {
   assert.deepEqual(DOCK_FAVORITES, [
+    { type: 'bookmark', id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com', icon: 'brand/chatgpt.svg' },
     { type: 'bookmark', id: 'github', name: 'GitHub', url: 'https://github.com', icon: 'brand/github.svg' },
     { type: 'bookmark', id: 'gmail', name: 'Gmail', url: 'https://mail.google.com', icon: 'brand/gmail.svg' },
-    { type: 'bookmark', id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com', icon: 'brand/chatgpt.svg' },
   ]);
-  assert.deepEqual(bookmarkConfig.DOCK_COMPONENTS, {
+});
+
+test('Components 聚合入口保持当前组件工具顺序', () => {
+  assert.deepEqual(DOCK_COMPONENTS, {
     type: 'bookmark-group',
     id: 'components',
     name: 'Components',
     icon: 'icons/components.svg',
     bookmarks: [
-      { type: 'bookmark', id: 'element-ui', name: 'Element UI', url: 'https://element.eleme.io', icon: 'tools/element-ui.svg' },
-      { type: 'bookmark', id: 'element-plus', name: 'Element Plus', url: 'https://element-plus.org', icon: 'tools/element-plus.svg' },
-      { type: 'bookmark', id: 'antd', name: 'Ant Design', url: 'https://ant.design', icon: 'tools/antd.svg' },
       { type: 'bookmark', id: 'lucide', name: 'Lucide', url: 'https://lucide.dev', icon: 'tools/lucide.svg' },
       { type: 'bookmark', id: 'iconfont', name: 'Iconfont', url: 'https://www.iconfont.cn', icon: 'tools/iconfont.svg' },
+      { type: 'bookmark', id: 'antd', name: 'Ant Design', url: 'https://ant.design', icon: 'tools/antd.svg' },
+      { type: 'bookmark', id: 'element-ui', name: 'Element UI', url: 'https://element.eleme.io', icon: 'tools/element-ui.svg' },
+      { type: 'bookmark', id: 'element-plus', name: 'Element Plus', url: 'https://element-plus.org', icon: 'tools/element-plus.svg' },
     ],
   });
+});
+
+test('DevTools 聚合入口提供翻译工具', () => {
   assert.deepEqual(DOCK_DEVTOOLS, {
     type: 'bookmark-group',
     id: 'devtools',

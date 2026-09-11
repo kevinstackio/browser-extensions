@@ -82,6 +82,41 @@ test('书签文件夹点击单个图标后加入标签组', async () => {
   }]);
 });
 
+// 验证配置为 blur 的文件夹默认显示遮罩，点击遮罩后才能操作内部书签。
+test('带 blur 配置的文件夹点击后解除模糊层', () => {
+  const edu = {
+    name: 'EDU',
+    blur: true,
+    items: [
+      {
+        id: 'pmi',
+        name: 'PMI',
+        url: 'https://www.pmi.org/',
+        icon: 'brand/text-pmi.svg',
+      },
+    ],
+  };
+  const folder = createBookmarkFolder(createDocument(), edu, () => {});
+  const preview = folder.children[0];
+  const blurButton = preview.children.at(-1);
+
+  assert.match(folder.className, /bookmark-folder--blurred/);
+  assert.equal(blurButton.className, 'bookmark-folder__blur');
+  assert.equal(blurButton.attributes.get('aria-label'), '点击显示 EDU 书签');
+  assert.equal(blurButton.children.length, 1);
+  assert.equal(blurButton.children[0].tagName, 'img');
+  assert.equal(blurButton.children[0].attributes.get('src'), 'src/assets/icons/brush-cleaning.svg');
+  assert.equal(blurButton.children[0].attributes.get('aria-hidden'), 'true');
+
+  blurButton.listeners.get('click')({
+    prevented: false,
+    preventDefault() { this.prevented = true; },
+  });
+
+  assert.equal(folder.className, 'bookmark-folder');
+  assert.equal(blurButton.className, 'bookmark-folder__blur bookmark-folder__blur--hidden');
+});
+
 // 验证文件夹由固定内边距和内部书签间距自然撑开。
 test('书签文件夹不设宽高并使用固定的内部间距', async () => {
   const styles = await readFile(
@@ -93,6 +128,8 @@ test('书签文件夹不设宽高并使用固定的内部间距', async () => {
   assert.doesNotMatch(styles, /\.bookmark-folder\s*\{[^}]*grid-(column|row):/s);
   assert.doesNotMatch(styles, /\.bookmark-folder\s*\{[^}]*\b(width|height):/s);
   assert.match(styles, /\.bookmark-folder__preview\s*\{[^}]*box-sizing:\s*border-box;[^}]*grid-template-columns:\s*repeat\(2,\s*64px\);[^}]*gap:\s*16px;[^}]*padding:\s*16px;[^}]*border-radius:\s*16px;/s);
+  assert.doesNotMatch(styles, /\.bookmark-folder__blur:hover,\s*\.bookmark-folder__blur:focus-visible\s*\{/s);
+  assert.match(styles, /\.bookmark-folder__blur:hover img,\s*\.bookmark-folder__blur:focus-visible img\s*\{[^}]*transform:\s*translateY\(-2px\) scale\(1\.08\);/s);
   assert.match(styles, /\.bookmark-folder \.bookmark-card\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
   assert.match(styles, /\.bookmark-folder__placeholder\s*\{[^}]*box-sizing:\s*border-box;[^}]*width:\s*64px;[^}]*height:\s*64px;/s);
   assert.match(styles, /\.bookmark-folder \.bookmark-card__name\s*\{[^}]*display:\s*none;/s);

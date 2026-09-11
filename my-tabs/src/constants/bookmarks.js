@@ -33,6 +33,7 @@ export const BOOKMARK_GRID = [
     type: 'folder',
     id: 'edu',
     name: 'EDU',
+    blur: true,
     items: [
       { id: 'pmi', name: 'PMI', url: 'https://www.pmi.org/', icon: 'brand/text-pmi.svg' },
       { id: 'jlpt', name: 'JLPT', url: 'https://jlpt-main.neea.cn/', icon: 'brand/text-jlpt.svg' },

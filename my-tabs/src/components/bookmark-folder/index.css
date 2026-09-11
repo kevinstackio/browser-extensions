@@ -9,6 +9,7 @@
 
 /* 用固定内边距和图标间距包裹四个书签预览。 */
 .bookmark-folder__preview {
+  position: relative;
   display: grid;
   box-sizing: border-box;
   grid-template-columns: repeat(2, 64px);
@@ -17,6 +18,39 @@
   border: 1px solid #e4e4e7;
   border-radius: 16px;
   background: var(--page-background);
+}
+
+/* 低频文件夹默认使用可点击的半透明磨砂层降低视觉干扰。 */
+.bookmark-folder__blur {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 16px;
+  color: inherit;
+  font: inherit;
+  background: rgb(255 255 255 / 42%);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: transform var(--transition-duration) ease, border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.bookmark-folder__blur img {
+  width: 28px;
+  height: 28px;
+  transition: transform var(--transition-duration) ease;
+}
+
+/* 仅让中间图标轻微移动和放大，引导用户点击查看。 */
+.bookmark-folder__blur:hover img,
+.bookmark-folder__blur:focus-visible img {
+  transform: translateY(-2px) scale(1.08);
+}
+
+.bookmark-folder__blur--hidden {
+  display: none;
 }
 
 /* 将文件夹内书签缩小为仅用于预览的图标位。 */

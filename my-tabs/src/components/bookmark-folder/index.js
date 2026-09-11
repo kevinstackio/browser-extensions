@@ -1,4 +1,5 @@
 import { createBookmarkCard } from '../bookmark-card/index.js';
+import { getExtensionAsset } from '../../utils/common.js';
 
 /**
  * 创建以紧凑图标预览呈现的书签文件夹。
@@ -12,6 +13,8 @@ export function createBookmarkFolder(document, folder, onOpenBookmark) {
   const element = document.createElement('section');
   const preview = document.createElement('div');
   const name = document.createElement('span');
+  const blurButton = folder.blur === true ? document.createElement('button') : null;
+  let isBlurred = folder.blur === true;
 
   element.className = 'bookmark-folder';
   element.setAttribute('aria-label', folder.name);
@@ -36,6 +39,27 @@ export function createBookmarkFolder(document, folder, onOpenBookmark) {
 
     return placeholder;
   }));
+  if (blurButton) {
+    const blurIcon = document.createElement('img');
+
+    blurButton.className = 'bookmark-folder__blur';
+    blurButton.setAttribute('type', 'button');
+    blurButton.setAttribute('aria-label', `点击显示 ${folder.name} 书签`);
+    blurIcon.setAttribute('src', getExtensionAsset('icons/brush-cleaning.svg'));
+    blurIcon.setAttribute('alt', '');
+    blurIcon.setAttribute('aria-hidden', 'true');
+    blurButton.append(blurIcon);
+    blurButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation?.();
+      isBlurred = false;
+      element.className = 'bookmark-folder';
+      blurButton.className = 'bookmark-folder__blur bookmark-folder__blur--hidden';
+      blurButton.setAttribute('aria-hidden', 'true');
+    });
+    preview.append(blurButton);
+  }
+  if (isBlurred) element.className = 'bookmark-folder bookmark-folder--blurred';
   name.className = 'bookmark-folder__name';
   name.textContent = folder.name;
   element.append(preview, name);
